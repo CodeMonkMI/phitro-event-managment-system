@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  evms_db:
+    image: postgres:15-alpine
+    container_name: evms-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: evms
+    ports:
+      - "5432:5432"
+    volumes:
+      - django_evms_data:/var/lib/postgresql/data
+    networks:
+      - evms_network
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: Django_evms_pgadmin
+    restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+      - "5051:443"
+    depends_on:
+      - evms_db
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    networks:
+      - evms_network
+volumes:
+  django_evms_data:
+  pgadmin:
+
+networks:
+  evms_network:
+    driver: bridge
