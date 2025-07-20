@@ -2,15 +2,18 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from events.models import Events
 from events.forms import EventsForm
-import json
-from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Count
 
 
 # Create your views here.
 
 
 def index(request):
-    events = Events.objects.filter().order_by("created_at")
+    events = (
+        Events.objects.select_related("category")
+        .annotate(nums_participants=Count("participants"))
+        .order_by("-date")
+    )
     context = {"events": events, "events_json": {}}
     return render(request, "events.html", context)
 
@@ -33,7 +36,11 @@ def create(request: HttpRequest):
 
 def single(request: HttpRequest, id):
     try:
-        event = Events.objects.get(pk=id)
+        event = (
+            Events.objects.prefetch_related("participants")
+            .select_related("category")
+            .get(pk=id)
+        )
 
         context = {"event": event}
         return render(request, "single_event.html", context)
