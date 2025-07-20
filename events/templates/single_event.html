@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Event Management
+{% endblock %}
+{% block content %}
+  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow p-8 mt-8">
+    <h1 class="text-2xl font-bold mb-4">Event Details</h1>
+    <div class="mb-6">
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Name:</span>
+        <span class="ml-2">{{ event.name }}</span>
+      </div>
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Description:</span>
+        <span class="ml-2 text-gray-600">{{ event.description }}</span>
+      </div>
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Date:</span>
+        <span class="ml-2">{{ event.date }}</span>
+      </div>
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Time:</span>
+        <span class="ml-2">{{ event.time }}</span>
+      </div>
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Location:</span>
+        <span class="ml-2">{{ event.location }}</span>
+      </div>
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Category:</span>
+        <span class="ml-2">{{ event.category.name }}</span>
+      </div>
+      <div>
+        <span class="font-semibold text-gray-700">Participants:</span>
+        <ul class="ml-6 mt-2 list-disc text-gray-600">
+          {% for participant in event.participants.all %}
+            <li>{{ participant.name }}</li>
+          {% empty %}
+            <li class="text-gray-400">No participants yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="flex gap-4">
+      <a href="{% url 'events_update' event.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Edit</a>
+      <form action="{% url 'events_delete' event.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete</button>
+      </form>
+      <a href="{% url 'events_index' %}" class="px-4 py-2 rounded-lg text-gray-600 bg-gray-100">Back to List</a>
+    </div>
+  </div>
+{% endblock %}

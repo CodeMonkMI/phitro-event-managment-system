@@ -2,13 +2,16 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from events.models import Events
 from events.forms import EventsForm
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 # Create your views here.
 
 
 def index(request):
     events = Events.objects.filter().order_by("created_at")
-    context = {"events": events}
+    context = {"events": events, "events_json": {}}
     return render(request, "events.html", context)
 
 
@@ -21,7 +24,7 @@ def create(request: HttpRequest):
             form.save()
             context["message"] = "events created successfully"
 
-        return render(request, "create_events.html", context)
+        return redirect("events_index")
 
     form = EventsForm()
     context = {"form": form}
@@ -33,9 +36,9 @@ def single(request: HttpRequest, id):
         event = Events.objects.get(pk=id)
 
         context = {"event": event}
-        return render(request, "single.html", context)
+        return render(request, "single_event.html", context)
     except Events.DoesNotExist:
-        return render(request, "single.html")
+        return render(request, "single_event.html")
 
 
 def update(request, id):
@@ -53,7 +56,7 @@ def update(request, id):
                     "id": id,
                     "message": "events updated successfully",
                 }
-                return render(request, "update.html", context)
+                return redirect("events_index")
 
         form = EventsForm(instance=event)
         context = {
@@ -62,9 +65,9 @@ def update(request, id):
             "id": id,
             "event": event,
         }
-        return render(request, "update.html", context)
+        return render(request, "update_events.html", context)
     except Events.DoesNotExist:
-        return render(request, "update.html")
+        return render(request, "update_events.html")
 
 
 def delete(request, id):
@@ -74,6 +77,6 @@ def delete(request, id):
         if request.method == "POST":
             event.delete()
 
-        return redirect("index")
+        return redirect("events_index")
     except Events.DoesNotExist:
-        return redirect("index")
+        return redirect("events_index")

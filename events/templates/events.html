@@ -8,6 +8,7 @@
     <h1 class="text-2xl font-bold">Events</h1>
     <a href="{% url 'events_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">+ Create Event</a>
   </div>
+  <pre>{{ events_json }}</pre>
   <div class="bg-white shadow rounded-xl overflow-x-auto">
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
@@ -32,10 +33,13 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ event.time }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ event.location }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ event.participants.count }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
-              <a href="{% url 'events_index' %}" class="text-blue-500 hover:underline mr-3">View</a>
-              <a href="{% url 'events_index' %}" class="text-green-500 hover:underline mr-3">Edit</a>
-              <a href="{% url 'events_index' %}" class="text-red-500 hover:underline">Delete</a>
+            <td class="px-6 py-4 whitespace-nowrap text-sm flex">
+              <a href="{% url 'events_view' event.id %}" class="text-blue-500 hover:underline mr-3">View</a>
+              <a href="{% url 'events_update' event.id %}" class="text-green-500 hover:underline mr-3">Edit</a>
+              <form action="{% url 'events_delete' event.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="text-red-500 hover:underline">Delete</button>
+              </form>
             </td>
           </tr>
         {% empty %}
