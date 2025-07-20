@@ -8,8 +8,8 @@ from categories.forms import CategoriesForm
 
 def index(request):
     categories = Category.objects.filter().order_by("created_at")
-    context = {"todos": categories}
-    return render(request, "all.html", context)
+    context = {"categories": categories}
+    return render(request, "index.html", context)
 
 
 def create(request: HttpRequest):
@@ -20,12 +20,14 @@ def create(request: HttpRequest):
         if form.is_valid():
             form.save()
             context["message"] = "Category created successfully"
-
-        return render(request, "all.html", context)
+            return redirect("category_index")
+        else:
+            context = {"form": form}
+            return render(request, "create.html", context)
 
     form = CategoriesForm()
     context = {"form": form}
-    return render(request, "all.html", context)
+    return render(request, "create.html", context)
 
 
 def single(request: HttpRequest, id):
@@ -53,7 +55,7 @@ def update(request, id):
                     "id": id,
                     "message": "Category updated successfully",
                 }
-                return render(request, "update.html", context)
+                return redirect("category_index")
 
         form = CategoriesForm(instance=category)
         context = {
@@ -74,6 +76,6 @@ def delete(request, id):
         if request.method == "POST":
             category.delete()
 
-        return redirect("index")
+        return redirect("category_index")
     except Category.DoesNotExist:
-        return redirect("index")
+        return redirect("category_index")
