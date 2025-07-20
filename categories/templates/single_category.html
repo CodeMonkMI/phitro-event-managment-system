@@ -16,6 +16,15 @@
         <span class="font-semibold text-gray-700">Description:</span>
         <span class="ml-2 text-gray-600">{{ category.description }}</span>
       </div>
+      <div>
+        <span class="font-semibold text-gray-700">Events:</span>
+        <ul>
+          {% for event in category.events.all %}
+            <li>{{ event.name }}</li>
+          {% endfor %}
+        </ul>
+        <span class="ml-2 text-gray-600">{{ category.description }}</span>
+      </div>
     </div>
     <div class="flex gap-4">
       <a href="{% url 'category_update' category.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Edit</a>

@@ -2,12 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from users.models import User
 from users.forms import UserForm
+from django.db.models import Count
 
 # Create your views here.
 
 
 def index(request):
-    users = User.objects.filter().order_by("created_at")
+    users = (
+        User.objects.annotate(nums_event=Count("events"))
+        .filter()
+        .order_by("created_at")
+    )
     context = {"users": users}
     return render(request, "users.html", context)
 

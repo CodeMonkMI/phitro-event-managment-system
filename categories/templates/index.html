@@ -16,6 +16,7 @@
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total Events</th>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ forloop.counter }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-800">{{ category.name }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ category.description }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ category.events.count }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm flex">
               <a href="{% url 'category_view' category.id %}" class="text-blue-500 hover:underline mr-3">View</a>
               <a href="{% url 'category_update' category.id %}" class="text-green-500 hover:underline mr-3">Edit</a>

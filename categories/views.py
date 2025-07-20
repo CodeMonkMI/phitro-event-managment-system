@@ -7,7 +7,9 @@ from categories.forms import CategoriesForm
 
 
 def index(request):
-    categories = Category.objects.filter().order_by("created_at")
+    categories = (
+        Category.objects.prefetch_related("events").filter().order_by("created_at")
+    )
     context = {"categories": categories}
     return render(request, "index.html", context)
 

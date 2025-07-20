@@ -11,6 +11,7 @@ from django.db.models import Count
 def index(request):
     events = (
         Events.objects.select_related("category")
+        .prefetch_related("participants")
         .annotate(nums_participants=Count("participants"))
         .order_by("-date")
     )
