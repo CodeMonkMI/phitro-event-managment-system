@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Event Management
+{% endblock %}
+{% block content %}
+  <div class="max-w-xl mx-auto bg-white rounded-xl shadow p-8 mt-8">
+    <h1 class="text-2xl font-bold mb-4">Participant Details</h1>
+    <div class="mb-6">
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Name:</span>
+        <span class="ml-2">{{ user.name }}</span>
+      </div>
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Email:</span>
+        <span class="ml-2">{{ user.email }}</span>
+      </div>
+      <div>
+        <span class="font-semibold text-gray-700">Events Attending:</span>
+        <ul class="ml-6 mt-2 list-disc text-gray-600">
+          {% for event in user.event_set.all %}
+            <li>{{ event.name }} ({{ event.date }}, {{ event.location }})</li>
+          {% empty %}
+            <li class="text-gray-400">Not registered for any events.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="flex gap-4">
+      <a href="{% url 'users_update' user.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Edit</a>
+      <form action="{% url 'users_delete' user.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete</button>
+      </form>
+      <a href="{% url 'users_index' %}" class="px-4 py-2 rounded-lg text-gray-600 bg-gray-100">Back to List</a>
+    </div>
+  </div>
+{% endblock %}

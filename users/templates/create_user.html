@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Dashboard | Event Management
+{% endblock %}
+{% block content %}
+  <div class="max-w-2xl mx-auto bg-white shadow rounded-xl p-8 mt-8">
+    <h1 class="text-2xl font-bold mb-6">Create Event</h1>
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      {{ form }}
+      <div class="flex justify-end">
+        <a href="{% url 'events_index' %}" class="px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mr-2">Cancel</a>
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Create</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
