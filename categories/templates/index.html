@@ -26,7 +26,8 @@
             <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-800">{{ category.name }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ category.description }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm flex">
-              <a href="{% url 'category_update' category.id %}" class="text-blue-500 hover:underline mr-3">Edit</a>
+              <a href="{% url 'category_view' category.id %}" class="text-blue-500 hover:underline mr-3">View</a>
+              <a href="{% url 'category_update' category.id %}" class="text-green-500 hover:underline mr-3">Edit</a>
               <form action="{% url 'category_delete' category.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="text-red-500 hover:underline">Delete</button>

@@ -35,9 +35,9 @@ def single(request: HttpRequest, id):
         category = Category.objects.get(pk=id)
 
         context = {"category": category}
-        return render(request, "single.html", context)
+        return render(request, "single_category.html", context)
     except Category.DoesNotExist:
-        return render(request, "single.html")
+        return render(request, "single_category.html")
 
 
 def update(request, id):

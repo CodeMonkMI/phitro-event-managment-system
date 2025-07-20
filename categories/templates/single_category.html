@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Dashboard | Event Management
+{% endblock %}
+
+{% block content %}
+  <div class="max-w-xl mx-auto bg-white rounded-xl shadow p-8 mt-8">
+    <h1 class="text-2xl font-bold mb-4">Category Details</h1>
+    <div class="mb-6">
+      <div class="mb-2">
+        <span class="font-semibold text-gray-700">Name:</span>
+        <span class="ml-2">{{ category.name }}</span>
+      </div>
+      <div>
+        <span class="font-semibold text-gray-700">Description:</span>
+        <span class="ml-2 text-gray-600">{{ category.description }}</span>
+      </div>
+    </div>
+    <div class="flex gap-4">
+      <a href="{% url 'category_update' category.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Edit</a>
+      <form action="{% url 'category_delete' category.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete</button>
+      </form>
+      <a href="{% url 'category_index' %}" class="px-4 py-2 rounded-lg text-gray-600 bg-gray-100">Back to List</a>
+    </div>
+  </div>
+{% endblock %}
