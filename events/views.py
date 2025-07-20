@@ -9,7 +9,7 @@ from events.forms import EventsForm
 def index(request):
     events = Events.objects.filter().order_by("created_at")
     context = {"events": events}
-    return render(request, "all.html", context)
+    return render(request, "events.html", context)
 
 
 def create(request: HttpRequest):
@@ -21,11 +21,11 @@ def create(request: HttpRequest):
             form.save()
             context["message"] = "events created successfully"
 
-        return render(request, "create.html", context)
+        return render(request, "create_events.html", context)
 
     form = EventsForm()
     context = {"form": form}
-    return render(request, "create.html", context)
+    return render(request, "create_events.html", context)
 
 
 def single(request: HttpRequest, id):
