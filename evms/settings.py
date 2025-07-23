@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "categories",
     "events",
     "users",
+    "dashboard",
     "debug_toolbar",
 ]
 

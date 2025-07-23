@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Event Management
+{% endblock %}
+{% block content %}
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+      <div class="rounded-2xl shadow p-6 bg-white hover:bg-gray-100 transition cursor-pointer flex flex-col items-center">
+        <span class="text-3xl font-bold text-blue-600" id="participants-count">{{ total_participants }}</span>
+        <span class="text-lg text-gray-600 mt-2">Participants</span>
+      </div>
+
+      <a href="{% url 'dashboard' %}?events_type=all" class="rounded-2xl shadow p-6 bg-white hover:bg-gray-100 transition cursor-pointer flex flex-col items-center">
+        <span class="text-3xl font-bold text-indigo-600" id="events-count">{{ total_events }}</span>
+        <span class="text-lg text-gray-600 mt-2">Total Events</span>
+      </a>
+
+      <a href="{% url 'dashboard' %}?events_type=up" class="rounded-2xl shadow p-6 bg-white hover:bg-gray-100 transition cursor-pointer flex flex-col items-center">
+        <span class="text-3xl font-bold text-green-600" id="upcoming-count">{{ total_upcoming_events }}</span>
+        <span class="text-lg text-gray-600 mt-2">Upcoming Events</span>
+      </a>
+
+      <a href="{% url 'dashboard' %}?events_type=past" class="rounded-2xl shadow p-6 bg-white hover:bg-gray-100 transition cursor-pointer flex flex-col items-center">
+        <span class="text-3xl font-bold text-red-600" id="past-count">{{ total_past_events }}</span>
+        <span class="text-lg text-gray-600 mt-2">Past Events</span>
+      </a>
+    </div>
+
+    {% comment %}todays event{% endcomment %}
+    <div class="bg-white rounded-2xl shadow p-6">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3M16 7V3M4 11h16M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>{{ title_value }} Events
+      </h2>
+      <div class="bg-white shadow rounded-xl overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Location</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Participants</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            {% for event in events %}
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ forloop.counter }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-800">{{ event.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ event.category.name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ event.date }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ event.time }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ event.location }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ event.nums_participants }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm flex">
+                  <a href="{% url 'events_view' event.id %}" class="text-blue-500 hover:underline mr-3">View</a>
+                  <a href="{% url 'events_update' event.id %}" class="text-green-500 hover:underline mr-3">Edit</a>
+                  <form action="{% url 'events_delete' event.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="8" class="px-6 py-8 text-center text-gray-400">No events found.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
