@@ -7,12 +7,12 @@ from users.models import User
 # Create your models here.
 class Events(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    name = models.CharField()
+    name = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField()
     time = models.TimeField()
-    location = models.CharField()
-    cover_url = models.CharField()
+    location = models.CharField(max_length=50)
+    cover_url = models.CharField(max_length=255)
 
     participants = models.ManyToManyField(User, related_name="events")
 
