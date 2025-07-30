@@ -1,5 +1,6 @@
 import dj_database_url
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-avp_8gmrw70mlsd+mfi1_k(onxql$6v5el4m8c2yp--g*fk$*u"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -73,24 +74,24 @@ INTERNAL_IPS = [
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "evms",  # Database name
-#         "USER": "postgres",  # Database user
-#         "PASSWORD": "postgres",  # Database password
-#         "HOST": "localhost",  # Set to your DB host/IP
-#         "PORT": "5432",  # Default PostgreSQL port
-#     }
-# }
-
 DATABASES = {
-    "default": dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default="postgresql://evms_db_user:bT4TQaJjd59LJPuw6IMMXfiULoEqLJNa@dpg-d226ltndiees73d5d030-a.singapore-postgres.render.com/evms_db",
-        conn_max_age=600,
-    )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("DATABASE_NAME", default="evms"),
+        "USER": config("DATABASE_USER", default="postgres"),
+        "PASSWORD": config("DATABASE_PASSWORD", default="postgres"),
+        "HOST": config("DATABASE_HOST", default="localhost"),
+        "PORT": config("DATABASE_PORT", default="5432"),
+    }
 }
+
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default="postgresql://evms_db_user:bT4TQaJjd59LJPuw6IMMXfiULoEqLJNa@dpg-d226ltndiees73d5d030-a.singapore-postgres.render.com/evms_db",
+#         conn_max_age=600,
+#     )
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
