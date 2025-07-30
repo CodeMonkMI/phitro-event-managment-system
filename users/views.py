@@ -11,7 +11,7 @@ def index(request):
     users = (
         User.objects.annotate(nums_event=Count("events"))
         .filter()
-        .order_by("created_at")
+        .order_by("date_joined")
     )
     context = {"users": users}
     return render(request, "users.html", context)

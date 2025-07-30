@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "users",
     "dashboard",
     "front",
+    "group",
     "debug_toolbar",
 ]
 
