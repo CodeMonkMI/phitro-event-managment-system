@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from events.models import Events
 from django.db.models import Count, Q
 from datetime import date
 import random
+from users.forms import RegistrationForm, LoginForm
+from django.contrib import messages
+from django.contrib.auth import login, logout
+
 
 events_images = [
     "https://plus.unsplash.com/premium_photo-1661306437817-8ab34be91e0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbnRzfGVufDB8fDB8fHww",
@@ -82,3 +86,51 @@ def single(request, id):
         return render(request, "front_event_single.html", context)
     except Events.DoesNotExist:
         return render(request, "front_event_single.html")
+
+
+def sign_in(request):
+    if request.method == "POST":
+
+        form = LoginForm(data=request.POST)
+        context = {"form": form}
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("dashboard")
+        else:
+            messages.error(request, "You provided credentials are invalid!")
+        return render(request, "sign_in.html", context)
+
+    form = LoginForm()
+    context = {"form": form}
+    return render(request, "sign_in.html", context)
+
+
+def sign_up(request):
+    if request.method == "POST":
+
+        form = RegistrationForm(request.POST)
+        context = {"form": form}
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Sign up successfully!")
+            return redirect("sign_in")
+
+        return render(request, "sign_up.html", context)
+
+    form = RegistrationForm()
+    context = {"form": form}
+    return render(request, "sign_up.html", context)
+
+
+def sign_out(request):
+    if request.method == "POST":
+        logout(request)
+        messages.success(request, "Sign out successfully!")
+        return redirect("sign_in")
+    return redirect("not_found")
+
+
+def not_found(request):
+
+    return render(request, "not_found.html")

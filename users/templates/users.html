@@ -23,7 +23,7 @@
         {% for user in users %}
           <tr>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ forloop.counter }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-800">{{ user.name }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-800">{{ user.first_name }} {{ user.last_name }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ user.email }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ user.nums_event }}</td>
 

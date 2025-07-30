@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
+{% extends 'front_base.html' %}
 
 {% block title %}
-  Dashboard | Event Management
+  Sign Up
 {% endblock %}
-{% block content %}
+{% block front_content %}
   <div class="max-w-2xl mx-auto bg-white shadow rounded-xl p-8 mt-8">
-    <h1 class="text-2xl font-bold mb-6">Create Event</h1>
-    <form method="post" class="space-y-6">
+    <h1 class="text-2xl font-bold mb-6">Create new account</h1>
+    {% include 'messages.html' %}
+    <form action="{% url 'sign_in' %}" method="post" class="space-y-6">
       {% csrf_token %}
       {% for field in form %}
         <div>
@@ -22,8 +23,10 @@
         </div>
       {% endfor %}
       <div class="flex justify-end">
-        <a href="{% url 'events_index' %}" class="px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mr-2">Cancel</a>
         <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Create</button>
+      </div>
+      <div class="">
+        Already have an account <a href="{% url 'sign_in' %}" class="rounded-lg text-blue-600 mr-2">Login Here</a>
       </div>
     </form>
   </div>

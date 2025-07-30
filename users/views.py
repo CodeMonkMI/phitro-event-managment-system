@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from users.models import User
-from users.forms import UserForm
+from users.forms import RegistrationForm
 from django.db.models import Count
 
 # Create your views here.
@@ -20,15 +20,15 @@ def index(request):
 def create(request: HttpRequest):
     if request.method == "POST":
 
-        form = UserForm(request.POST)
-        context = {}
+        form = RegistrationForm(request.POST)
+        context = {"form": form}
         if form.is_valid():
             form.save()
-            context["message"] = "users created successfully"
+            return redirect("users_index")
+        else:
+            return render(request, "create_user.html", context)
 
-        return redirect("users_index")
-
-    form = UserForm()
+    form = RegistrationForm()
     context = {"form": form}
     return render(request, "create_user.html", context)
 
@@ -49,7 +49,7 @@ def update(request, id):
     try:
         event = User.objects.get(pk=id)
         if request.method == "POST":
-            form = UserForm(request.POST, instance=event)
+            form = RegistrationForm(request.POST, instance=event)
             if form.is_valid():
                 form.save()
                 context = {
@@ -61,7 +61,7 @@ def update(request, id):
                 }
                 return redirect("users_index")
 
-        form = UserForm(instance=event)
+        form = RegistrationForm(instance=event)
         context = {
             "isFound": True,
             "form": form,
