@@ -24,7 +24,9 @@ def create(request: HttpRequest):
         form = RegistrationForm(request.POST)
         context = {"form": form}
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
             return redirect("users_index")
         else:
             return render(request, "create_user.html", context)

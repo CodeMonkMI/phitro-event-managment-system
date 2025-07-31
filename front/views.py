@@ -112,8 +112,12 @@ def sign_up(request):
         form = RegistrationForm(request.POST)
         context = {"form": form}
         if form.is_valid():
-            form.save()
-            messages.success(request, "Sign up successfully!")
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            messages.success(
+                request, "Sign up successfully! Activate you account before sign in!"
+            )
             return redirect("sign_in")
 
         return render(request, "sign_up.html", context)
