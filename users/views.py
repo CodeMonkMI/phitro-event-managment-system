@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from users.models import User
-from users.forms import RegistrationForm
+from users.forms import RegistrationForm, AssignRolesForm
 from django.db.models import Count
+from django.contrib import messages
 
 # Create your views here.
 
@@ -47,30 +48,22 @@ def single(request: HttpRequest, id):
 def update(request, id):
 
     try:
-        event = User.objects.get(pk=id)
+        user = User.objects.get(pk=id)
         if request.method == "POST":
-            form = RegistrationForm(request.POST, instance=event)
+            form = AssignRolesForm(request.POST)
             if form.is_valid():
-                form.save()
-                context = {
-                    "isFound": True,
-                    "form": form,
-                    "event": event,
-                    "id": id,
-                    "message": "users updated successfully",
-                }
+                roles = form.cleaned_data["groups"]
+                user.groups.set(roles)
+                messages.success(request, "Users updated successfully!")
                 return redirect("users_index")
 
-        form = RegistrationForm(instance=event)
+        form = AssignRolesForm(instance=user)
         context = {
-            "isFound": True,
             "form": form,
-            "id": id,
-            "event": event,
         }
-        return render(request, "update_user.html", context)
+        return render(request, "assign_user_role.html", context)
     except User.DoesNotExist:
-        return render(request, "update_user.html")
+        return redirect("not_found")
 
 
 def delete(request, id):
