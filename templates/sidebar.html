@@ -11,6 +11,12 @@
         </a>
       </li>
       <li>
+        <a href="{% url 'category_index' %}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-50 {% if request.path == '/dashboard/categories/' %}bg-blue-50 text-blue-700 {% endif %}">
+          <i class="fas fa-layer-group"></i>
+          Categories
+        </a>
+      </li>
+      <li>
         <a href="{% url 'events_index' %}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-50 {% if request.path == '/dashboard/events/' %}bg-blue-50 text-blue-700 {% endif %}">
           <i class="fas fa-calendar-alt"></i>
           Events
@@ -22,16 +28,11 @@
           Users
         </a>
       </li>
-      <li>
-        <a href="{% url 'category_index' %}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-50 {% if request.path == '/dashboard/categories/' %}bg-blue-50 text-blue-700 {% endif %}">
-          <i class="fas fa-layer-group"></i>
-          Categories
-        </a>
-      </li>
+
       <li>
         <a href="{% url 'groups' %}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-blue-50 {% if request.path == '/dashboard/group/' %}bg-blue-50 text-blue-700 {% endif %}">
           <i class="fas fa-layer-group"></i>
-          Groups | Roles
+          Roles
         </a>
       </li>
     </ul>
