@@ -2,10 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from categories.models import Category
 from categories.forms import CategoriesForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from users.middleware import is_organizer
 
 # Create your views here.
 
 
+@login_required
+@user_passes_test(is_organizer, login_url="no_permissions")
 def index(request):
     categories = (
         Category.objects.prefetch_related("events").filter().order_by("created_at")
@@ -14,6 +18,8 @@ def index(request):
     return render(request, "index.html", context)
 
 
+@login_required
+@user_passes_test(is_organizer, login_url="no_permissions")
 def create(request: HttpRequest):
     if request.method == "POST":
 
@@ -32,6 +38,8 @@ def create(request: HttpRequest):
     return render(request, "create.html", context)
 
 
+@login_required
+@user_passes_test(is_organizer, login_url="no_permissions")
 def single(request: HttpRequest, id):
     try:
         category = Category.objects.get(pk=id)
@@ -42,6 +50,8 @@ def single(request: HttpRequest, id):
         return render(request, "single_category.html")
 
 
+@login_required
+@user_passes_test(is_organizer, login_url="no_permissions")
 def update(request, id):
 
     try:
@@ -71,6 +81,8 @@ def update(request, id):
         return render(request, "update.html")
 
 
+@login_required
+@user_passes_test(is_organizer, login_url="no_permissions")
 def delete(request, id):
     try:
         category = get_object_or_404(Category, id=id)

@@ -4,10 +4,14 @@ from users.models import User
 from users.forms import RegistrationForm, AssignRolesForm
 from django.db.models import Count
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from users.middleware import is_admin
 
 # Create your views here.
 
 
+@login_required
+@user_passes_test(is_admin, login_url="no_permissions")
 def index(request):
     users = (
         User.objects.annotate(nums_event=Count("events"))
@@ -18,6 +22,8 @@ def index(request):
     return render(request, "users.html", context)
 
 
+@login_required
+@user_passes_test(is_admin, login_url="no_permissions")
 def create(request: HttpRequest):
     if request.method == "POST":
 
@@ -36,6 +42,8 @@ def create(request: HttpRequest):
     return render(request, "create_user.html", context)
 
 
+@login_required
+@user_passes_test(is_admin, login_url="no_permissions")
 def single(request: HttpRequest, id):
     try:
         user = User.objects.get(pk=id)
@@ -47,6 +55,8 @@ def single(request: HttpRequest, id):
         return render(request, "single_user.html")
 
 
+@login_required
+@user_passes_test(is_admin, login_url="no_permissions")
 def update(request, id):
 
     try:
@@ -68,6 +78,8 @@ def update(request, id):
         return redirect("not_found")
 
 
+@login_required
+@user_passes_test(is_admin, login_url="no_permissions")
 def delete(request, id):
     try:
         event = get_object_or_404(User, id=id)

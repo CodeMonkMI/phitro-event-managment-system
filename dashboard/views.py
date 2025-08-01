@@ -4,10 +4,14 @@ from django.db.models import Count
 from events.models import Events
 from users.models import User
 from datetime import date
+from django.contrib.auth.decorators import login_required, user_passes_test
+from users.middleware import is_admin
 
 # Create your views here.
 
 
+@login_required
+@user_passes_test(is_admin, login_url="no_permissions")
 def index(request):
     base_events = Events.objects.select_related("category").prefetch_related(
         "participants"

@@ -6,7 +6,7 @@ import random
 from users.forms import RegistrationForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, logout
-
+from django.contrib.auth.decorators import login_required
 
 events_images = [
     "https://plus.unsplash.com/premium_photo-1661306437817-8ab34be91e0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbnRzfGVufDB8fDB8fHww",
@@ -39,7 +39,7 @@ events_images = [
 ]
 
 
-# Create your views here.
+# Event related views
 def index(request):
     name = request.GET.get("name")
     location = request.GET.get("location")
@@ -77,17 +77,34 @@ def single(request, id):
         )
 
         images = random.sample(events_images, 6)
-
         context = {
             "event": event,
             "related_events": related_events,
             "images": images,
         }
+
+        if request.method == "POST":
+
+            form = RegistrationForm(request.POST)
+            context = {"form": form}
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                messages.success(
+                    request,
+                    "Sign up successfully! Activate you account before sign in!",
+                )
+                return redirect("sign_in")
+
+            return render(request, "front_event_single.html", context)
+
         return render(request, "front_event_single.html", context)
     except Events.DoesNotExist:
         return render(request, "front_event_single.html")
 
 
+# auth related views
 def sign_in(request):
     if request.method == "POST":
 
@@ -135,6 +152,13 @@ def sign_out(request):
     return redirect("not_found")
 
 
+# other views
 def not_found(request):
 
     return render(request, "not_found.html")
+
+
+# other views
+@login_required
+def no_permissions(request):
+    return render(request, "no_permissions.html")

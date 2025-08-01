@@ -23,9 +23,30 @@
             <li>
               <a href="{% url 'front' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Events</a>
             </li>
-            <li>
-              <a href="{% url 'dashboard' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Dashboard</a>
-            </li>
+            {% if user.is_authenticated %}
+              {% if user|in_groups:'Admin' %}
+                <li>
+                  <a href="{% url 'dashboard' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Dashboard</a>
+                </li>
+              {% else %}
+                <li>
+                  <a href="{% url 'events_index' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Dashboard</a>
+                </li>
+              {% endif %}
+              <li>
+                <form action="{% url 'sign_out' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="text-gray-700 hover:text-blue-600 font-medium transition">Logout</button>
+                </form>
+              </li>
+            {% else %}
+              <li>
+                <a href="{% url 'sign_in' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Sign In</a>
+              </li>
+              <li>
+                <a href="{% url 'sign_up' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Sign Up</a>
+              </li>
+            {% endif %}
           </ul>
         </nav>
       </div>

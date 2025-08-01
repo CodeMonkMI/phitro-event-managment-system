@@ -71,8 +71,20 @@
               <span class="text-yellow-400">🎟️</span> Participants: <span class="font-semibold">{{ event.participants.count }}</span>
             </li>
           </ul>
-          <button class="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg py-3 font-bold">Add to Calendar</button>
+          {% if user.is_authenticated %}
+            <form action="{% url 'events_create' %}" method="post">
+              {% csrf_token %}
+
+              <button type="submit" class="mt-6 w-full bg-blue-600 hover:bg-blue-500 text-white rounded-lg py-2.5 font-bold">Participate Now</button>
+            </form>
+          {% else %}
+            <p class="text-center py-2 mt-5">
+              <a href="{% url 'sign_in' %}" class="text-blue-500 underline">Sign in</a> to participate
+            </p>
+          {% endif %}
         </div>
+
+        {% comment %}participation form{% endcomment %}
       </aside>
     </div>
 

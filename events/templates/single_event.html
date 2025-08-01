@@ -43,11 +43,13 @@
       </div>
     </div>
     <div class="flex gap-4">
-      <a href="{% url 'events_update' event.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Edit</a>
-      <form action="{% url 'events_delete' event.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete</button>
-      </form>
+      {% if user|in_groups:'Admin,Organizer' %}
+        <a href="{% url 'events_update' event.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Edit</a>
+        <form action="{% url 'events_delete' event.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete</button>
+        </form>
+      {% endif %}
       <a href="{% url 'events_index' %}" class="px-4 py-2 rounded-lg text-gray-600 bg-gray-100">Back to List</a>
     </div>
   </div>
