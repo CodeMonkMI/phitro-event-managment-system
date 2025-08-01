@@ -83,21 +83,26 @@ def single(request, id):
             "images": images,
         }
 
+        user = request.user
         if request.method == "POST":
+            if user and user.is_authenticated:
+                if event.participants.filter(pk=user.pk).exists():
+                    event.participants.remove(user)
+                    msg = "Thank you for participating this event!"
+                else:
+                    event.participants.add(user)
+                    msg = "Thanks keep interest on this event. Hopefully you will join later on another event!"
 
-            form = RegistrationForm(request.POST)
-            context = {"form": form}
-            if form.is_valid():
-                user = form.save(commit=False)
-                user.is_active = False
-                user.save()
-                messages.success(
+                messages.success(request, msg)
+
+            else:
+                messages.error(
                     request,
-                    "Sign up successfully! Activate you account before sign in!",
+                    "You must sign in to perform this actions",
                 )
-                return redirect("sign_in")
 
-            return render(request, "front_event_single.html", context)
+        is_participating = event.participants.filter(pk=user.pk).exists()
+        context["is_participating"] = is_participating
 
         return render(request, "front_event_single.html", context)
     except Events.DoesNotExist:
