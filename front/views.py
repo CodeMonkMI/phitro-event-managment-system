@@ -140,6 +140,8 @@ def sign_up(request):
             messages.success(
                 request, "Sign up successfully! Activate you account before sign in!"
             )
+            print("user created")
+            print(user)
             return redirect("sign_in")
 
         return render(request, "sign_up.html", context)

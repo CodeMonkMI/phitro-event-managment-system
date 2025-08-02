@@ -2,5 +2,8 @@ from django.apps import AppConfig
 
 
 class FrontConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'front'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "front"
+
+    def ready(self):
+        import front.signals
