@@ -34,10 +34,10 @@ class StyledFormMixin:
                     }
                 )
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
-                print("Inside checkbox")
+
                 field.widget.attrs.update({"class": "space-y-2"})
             else:
-                print("Inside else")
+
                 field.widget.attrs.update({"class": self.default_classes})
 
 
@@ -75,7 +75,6 @@ class EventsForm(StyledFormMixin, forms.ModelForm):
                     "type": "time",
                 }
             ),
-            "cover_url": forms.URLInput(),
         }
 
     def __init__(self, *arg, **kwarg):

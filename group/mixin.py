@@ -35,8 +35,8 @@ class StyledFormMixin:
                     }
                 )
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
-                # print("Inside checkbox")
+
                 field.widget.attrs.update({"class": "space-y-2"})
             else:
-                # print("Inside else")
+
                 field.widget.attrs.update({"class": self.default_classes})

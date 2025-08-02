@@ -6,7 +6,7 @@
 {% block content %}
   <div class="max-w-2xl mx-auto bg-white shadow rounded-xl p-8 mt-8">
     <h1 class="text-2xl font-bold mb-6">Create Event</h1>
-    <form method="post" class="space-y-6">
+    <form method="post" class="space-y-6" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form }}
       <div class="flex justify-end">

@@ -24,8 +24,7 @@ def participant_update(sender, instance, action, pk_set, **kwargs):
         )
 
     recipient_list = [user.email for user in users]  # type: ignore
-    for r in recipient_list:
-        print(r)
+
     subject = "Event response"
     try:
         send_mail(
@@ -34,6 +33,6 @@ def participant_update(sender, instance, action, pk_set, **kwargs):
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=recipient_list,
         )
-        print("Mail sended successfully")
+
     except Exception as e:
         print(f"Failed to send email to {instance.email}: {str(e)}")

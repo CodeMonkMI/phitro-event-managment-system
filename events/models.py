@@ -12,7 +12,12 @@ class Events(models.Model):
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=50)
-    cover_url = models.CharField(max_length=255)
+    cover_url = models.ImageField(
+        upload_to="event_image",
+        blank=True,
+        null=True,
+        default="event_image/default_image.jpg",
+    )
 
     participants = models.ManyToManyField(User, related_name="events")
 
