@@ -4,7 +4,7 @@ from events.models import Events
 from events.forms import EventsForm
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required, user_passes_test
-from users.middleware import is_organizer
+from users.middleware import is_organizer, is_participant, is_admin
 
 
 # Create your views here.
@@ -18,7 +18,10 @@ def index(request):
         .annotate(nums_participants=Count("participants"))
         .order_by("-date")
     )
-    context = {"events": events, "events_json": {}}
+    user = request.user
+    if is_participant(user) and not is_organizer(user) and not is_admin(user):
+        events = events.filter(participants=user)
+    context = {"events": events}
     return render(request, "events.html", context)
 
 

@@ -111,7 +111,7 @@ def front_event_response(request, id):
                 return redirect("front_event_single", id=id)
 
             event.participants.add(user)
-            msg = "Thanks keep interest on this event. Hopefully you will join later on another event!"
+            msg = "Thanks you for joining this event!"
             messages.success(request, msg)
 
         return redirect("front_event_single", id=id)
@@ -121,6 +121,8 @@ def front_event_response(request, id):
 
 # auth related views
 def sign_in(request):
+    if request.user and request.user.is_authenticated:
+        return redirect("dashboard_routing")
     if request.method == "POST":
 
         form = LoginForm(data=request.POST)
@@ -128,7 +130,7 @@ def sign_in(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("dashboard")
+            return redirect("dashboard_routing")
         else:
             messages.error(request, "You provided credentials are invalid!")
         return render(request, "sign_in.html", context)
@@ -139,6 +141,8 @@ def sign_in(request):
 
 
 def sign_up(request):
+    if request.user and request.user.is_authenticated:
+        return redirect("dashboard_routing")
     if request.method == "POST":
 
         form = RegistrationForm(request.POST)
@@ -167,18 +171,10 @@ def activate_user(request, user_id, token):
         if default_token_generator.check_token(user, token):
             user.is_active = True
             user.save()
-            messages.success(
-                request, "You account is being activated! Sign in to continue!"
-            )
             return redirect("sign_in")
         else:
-            messages.error(request, "Invalid token id.")
             return redirect("not_found")
-    except User.DoesNotExist:
-        messages.error(request, "Invalid token id.")
-        return redirect("not_found")
     except Exception as e:
-        messages.success(request, "Invalid token id.")
         return redirect("not_found")
 
 

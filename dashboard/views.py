@@ -5,7 +5,7 @@ from events.models import Events
 from users.models import User
 from datetime import date
 from django.contrib.auth.decorators import login_required, user_passes_test
-from users.middleware import is_admin
+from users.middleware import is_admin, is_organizer
 
 # Create your views here.
 
@@ -13,6 +13,7 @@ from users.middleware import is_admin
 @login_required
 @user_passes_test(is_admin, login_url="no_permissions")
 def index(request):
+
     base_events = Events.objects.select_related("category").prefetch_related(
         "participants"
     )
@@ -47,3 +48,15 @@ def index(request):
         "title_value": title_value,
     }
     return render(request, "dashboard.html", context)
+
+
+@login_required
+def dashboard_route(request):
+
+    user = request.user
+    if is_admin(user):
+        return redirect("dashboard")
+    if is_organizer(user):
+        return redirect("category_index")
+
+    return redirect("events_index")
