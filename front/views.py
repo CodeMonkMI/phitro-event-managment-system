@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from users.models import User
 from django.contrib.auth.tokens import default_token_generator
 
+
 events_images = [
     "https://plus.unsplash.com/premium_photo-1661306437817-8ab34be91e0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbnRzfGVufDB8fDB8fHww",
     "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnRzfGVufDB8fDB8fHww",
@@ -109,6 +110,31 @@ def single(request, id):
         return render(request, "front_event_single.html", context)
     except Events.DoesNotExist:
         return render(request, "front_event_single.html")
+
+
+@login_required()
+def front_event_response(request, id):
+    try:
+        event = (
+            Events.objects.prefetch_related("participants")
+            .select_related("category")
+            .get(pk=id)
+        )
+
+        user = request.user
+        if request.method == "POST":
+            if event.participants.filter(pk=user.pk).exists():
+                event.participants.remove(user)
+                msg = "Thank you for participating this event!"
+            else:
+                event.participants.add(user)
+                msg = "Thanks keep interest on this event. Hopefully you will join later on another event!"
+
+            messages.success(request, msg)
+
+        return redirect("front_event_single", id=id)
+    except Events.DoesNotExist:
+        return redirect("front_event_single", id=id)
 
 
 # auth related views

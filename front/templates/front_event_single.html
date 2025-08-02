@@ -72,7 +72,7 @@
             </li>
           </ul>
           {% if user.is_authenticated %}
-            <form action="{% url 'front_event_single' event.id %}" method="post">
+            <form action="{% url 'front_event_response' event.id %}" method="post">
               {% csrf_token %}
 
               {% if is_participating %}

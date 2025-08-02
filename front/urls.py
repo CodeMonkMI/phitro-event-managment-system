@@ -9,11 +9,15 @@ from front.views import (
     not_found,
     no_permissions,
     activate_user,
+    front_event_response,
 )
 
 urlpatterns = [
     path("", index, name="front"),
     path("events/<uuid:id>", single, name="front_event_single"),
+    path(
+        "events/<uuid:id>/response", front_event_response, name="front_event_response"
+    ),
     path("sign-up", sign_up, name="sign_up"),
     path("sign-in", sign_in, name="sign_in"),
     path("sign-out", sign_out, name="sign_out"),
