@@ -72,15 +72,14 @@
             </li>
           </ul>
           {% if user.is_authenticated %}
-            <form action="{% url 'front_event_response' event.id %}" method="post">
-              {% csrf_token %}
-
-              {% if is_participating %}
-                <button type="submit" class="mt-6 w-full bg-red-600 hover:bg-red-500 text-white rounded-lg py-2.5 font-bold">Leave Event</button>
-              {% else %}
+            {% if not is_participating %}
+              <form action="{% url 'front_event_response' event.id %}" method="post">
+                {% csrf_token %}
                 <button type="submit" class="mt-6 w-full bg-blue-600 hover:bg-blue-500 text-white rounded-lg py-2.5 font-bold">Participate Now</button>
-              {% endif %}
-            </form>
+              </form>
+            {% else %}
+              <p class="text-center text-green-500 pt-5">Thanks you for participating</p>
+            {% endif %}
           {% else %}
             <p class="text-center py-2 mt-5">
               <a href="{% url 'sign_in' %}" class="text-blue-500 underline">Sign in</a> to participate

@@ -87,22 +87,6 @@ def single(request, id):
         }
 
         user = request.user
-        if request.method == "POST":
-            if user and user.is_authenticated:
-                if event.participants.filter(pk=user.pk).exists():
-                    event.participants.remove(user)
-                    msg = "Thank you for participating this event!"
-                else:
-                    event.participants.add(user)
-                    msg = "Thanks keep interest on this event. Hopefully you will join later on another event!"
-
-                messages.success(request, msg)
-
-            else:
-                messages.error(
-                    request,
-                    "You must sign in to perform this actions",
-                )
 
         is_participating = event.participants.filter(pk=user.pk).exists()
         context["is_participating"] = is_participating
@@ -124,17 +108,15 @@ def front_event_response(request, id):
         user = request.user
         if request.method == "POST":
             if event.participants.filter(pk=user.pk).exists():
-                event.participants.remove(user)
-                msg = "Thank you for participating this event!"
-            else:
-                event.participants.add(user)
-                msg = "Thanks keep interest on this event. Hopefully you will join later on another event!"
+                return redirect("front_event_single", id=id)
 
+            event.participants.add(user)
+            msg = "Thanks keep interest on this event. Hopefully you will join later on another event!"
             messages.success(request, msg)
 
         return redirect("front_event_single", id=id)
     except Events.DoesNotExist:
-        return redirect("front_event_single", id=id)
+        return redirect("not_found", id=id)
 
 
 # auth related views
