@@ -7,6 +7,8 @@ from users.forms import RegistrationForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from users.models import User
+from django.contrib.auth.tokens import default_token_generator
 
 events_images = [
     "https://plus.unsplash.com/premium_photo-1661306437817-8ab34be91e0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbnRzfGVufDB8fDB8fHww",
@@ -149,6 +151,27 @@ def sign_up(request):
     form = RegistrationForm()
     context = {"form": form}
     return render(request, "sign_up.html", context)
+
+
+def activate_user(request, user_id, token):
+    try:
+        user = User.objects.get(pk=user_id)
+        if default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            messages.success(
+                request, "You account is being activated! Sign in to continue!"
+            )
+            return redirect("sign_in")
+        else:
+            messages.error(request, "Invalid token id.")
+            return redirect("not_found")
+    except User.DoesNotExist:
+        messages.error(request, "Invalid token id.")
+        return redirect("not_found")
+    except Exception as e:
+        messages.success(request, "Invalid token id.")
+        return redirect("not_found")
 
 
 def sign_out(request):

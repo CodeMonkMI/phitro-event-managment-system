@@ -8,6 +8,7 @@ from front.views import (
     sign_out,
     not_found,
     no_permissions,
+    activate_user,
 )
 
 urlpatterns = [
@@ -18,4 +19,5 @@ urlpatterns = [
     path("sign-out", sign_out, name="sign_out"),
     path("not-found", not_found, name="not_found"),
     path("no_permissions", no_permissions, name="no_permissions"),
+    path("activate/<uuid:user_id>/<str:token>", activate_user, name="activate_user"),
 ]

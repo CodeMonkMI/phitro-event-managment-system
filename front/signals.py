@@ -9,12 +9,11 @@ from django.conf import settings
 
 @receiver(post_save, sender=User)
 def send_activation_email(sender, instance, created, **kwargs):
-    print("send_activation_email signal")
     if not created:
         return
 
     token = default_token_generator.make_token(instance)
-    activation_url = f"{settings.FRONTEND_URL}/users/activate/{instance.id}/{token}"
+    activation_url = f"{settings.FRONTEND_URL}/activate/{instance.id}/{token}"
     subject = "Activate you account"
     message = f"Hi, {instance.username},\nPlease activate your account via this link: {activation_url}\n\n Thank you"
     recipient_list = [instance.email]
