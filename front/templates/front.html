@@ -30,7 +30,7 @@
       {% for event in events %}
         <div class="flex bg-white h-64 rounded-2xl shadow-lg overflow-hidden">
           <div class="w-1/3 h-full">
-            <img src="{{ event.cover_url|default:'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg' }}" alt="Event Cover" class="w-full h-full object-cover" />
+            <img src="{{ event.cover_url.url|default:'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg' }}" alt="Event Cover" class="w-full h-full object-cover" />
           </div>
           <div class="p-6">
             <h2 class="text-2xl font-bold mb-2">{{ event.name }}</h2>

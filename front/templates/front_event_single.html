@@ -7,7 +7,7 @@
   <!-- Cover Photo -->
   <div class="relative bg-blue-600 overflow-hidden">
     <div class="w-full h-[500px] overflow-hidden">
-      <img src="{{ event.cover_url }}" alt="Event Hero" class="w-full h-full object-cover opacity-60" />
+      <img src="{{ event.cover_url.url }}" alt="Event Hero" class="w-full h-full object-cover opacity-60" />
     </div>
     <div class="absolute inset-0 flex flex-col justify-center items-center text-white">
       <h1 class="text-4xl font-bold drop-shadow-xl">{{ event.name }}</h1>
@@ -21,7 +21,7 @@
       <div class="w-full lg:w-2/3 flex flex-col gap-8">
         <!-- Event Hero Image + Title + Breadcrumb -->
         <div class="bg-white rounded-2xl shadow p-6">
-          <img src="{{ event.cover_url }}" alt="Friendship Dinner" class="rounded-xl w-full mb-4 max-h-[320px] object-cover" />
+          <img src="{{ event.cover_url.url }}" alt="Friendship Dinner" class="rounded-xl w-full mb-4 max-h-[320px] object-cover" />
           <p class="text-gray-600 mb-4">Looking for an opportunity to connect with new people and strengthen your existing friendships? Join us for the Friendship Dinner, a one-of-a-kind event that celebrates the power of human connection and the importance of building meaningful relationships...</p>
 
           <!-- Social Share -->
@@ -98,7 +98,7 @@
         {% for rev in related_events %}
           <div class="bg-white rounded-2xl shadow overflow-hidden">
             <div class="h-52 w-full">
-              <img src="{{ rev.cover_url }}" alt="LA Beach Picnic" class="h-full w-full object-cover" />
+              <img src="{{ rev.cover_url.url }}" alt="LA Beach Picnic" class="h-full w-full object-cover" />
             </div>
             <div class="p-5">
               <div class="mb-2">

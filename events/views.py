@@ -27,7 +27,7 @@ def index(request):
 def create(request: HttpRequest):
     if request.method == "POST":
 
-        form = EventsForm(request.POST)
+        form = EventsForm(request.POST, request.FILES)
         context = {}
         if form.is_valid():
             form.save()
@@ -62,7 +62,7 @@ def update(request, id):
     try:
         event = Events.objects.get(pk=id)
         if request.method == "POST":
-            form = EventsForm(request.POST, instance=event)
+            form = EventsForm(request.POST, request.FILES, instance=event)
             if form.is_valid():
                 form.save()
                 context = {
