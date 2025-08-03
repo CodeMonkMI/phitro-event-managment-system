@@ -5,13 +5,16 @@ from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 
 @receiver(post_save, sender=User)
-def send_activation_email(sender, instance, created, **kwargs):
+def assign_role_and_send_activation_email(sender, instance, created, **kwargs):
     if not created:
         return
-
+    user_group, create = Group.objects.get_or_create(name="Participant")
+    instance.groups.add(user_group)
+    instance.save()
     token = default_token_generator.make_token(instance)
     activation_url = f"{settings.FRONTEND_URL}/activate/{instance.id}/{token}"
     subject = "Activate you account"
