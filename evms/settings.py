@@ -1,6 +1,7 @@
 import dj_database_url
 from pathlib import Path
 from decouple import config
+from typing import Optional
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,24 +79,25 @@ INTERNAL_IPS = [
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DATABASE_NAME", default="evms"),
-        "USER": config("DATABASE_USER", default="postgres"),
-        "PASSWORD": config("DATABASE_PASSWORD", default="postgres"),
-        "HOST": config("DATABASE_HOST", default="localhost"),
-        "PORT": config("DATABASE_PORT", default="5432"),
-    }
-}
-
 # DATABASES = {
-#     "default": dj_database_url.config(
-#         # Replace this value with your local database's connection string.
-#         default="postgresql://evms_db_user:bT4TQaJjd59LJPuw6IMMXfiULoEqLJNa@dpg-d226ltndiees73d5d030-a.singapore-postgres.render.com/evms_db",
-#         conn_max_age=600,
-#     )
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": config("DATABASE_NAME", default="evms"),
+#         "USER": config("DATABASE_USER", default="postgres"),
+#         "PASSWORD": config("DATABASE_PASSWORD", default="postgres"),
+#         "HOST": config("DATABASE_HOST", default="localhost"),
+#         "PORT": config("DATABASE_PORT", default="5432"),
+#     }
 # }
+
+
+DATABASES = {
+    "default": dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default=config("DATABASE", cast=str),  # type: ignore
+        conn_max_age=600,
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
