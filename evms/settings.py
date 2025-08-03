@@ -150,7 +150,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "sign_in"
 
-FRONTEND_URL = "http://127.0.0.1:8000"
+FRONTEND_URL = config("FRONTEND_URL", default="http://127.0.0.1:8000")
 
 # email configurations
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
