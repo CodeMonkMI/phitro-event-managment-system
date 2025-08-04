@@ -90,3 +90,23 @@ def delete(request, id):
         return redirect("users_index")
     except User.DoesNotExist:
         return redirect("users_index")
+
+
+@login_required
+def auth_user_profile(request: HttpRequest):
+    try:
+        user = User.objects.get(pk=request.user.pk)
+        print(user.id)
+        context = {
+            "name": f"{user.first_name} {user.last_name}",
+            "profile_picture": user.profile_picture.url,
+            "email": user.email,
+            "username": user.username,
+            "last_login": user.last_login,
+            "joined": user.date_joined,
+            "phone_number": user.phone_number,
+        }
+
+        return render(request, "user_profile.html", context)
+    except User.DoesNotExist:
+        return render(request, "user_profile.html")
