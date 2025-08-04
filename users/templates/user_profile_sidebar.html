@@ -3,8 +3,8 @@
     <h2 class="text-xl font-semibold text-gray-800">Menu</h2>
   </div>
   <nav class="mt-6">
-    <a href="#" class="block py-2 px-4 text-gray-700 bg-gray-200 hover:bg-gray-300">Profile</a>
-    <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Edit Profile</a>
-    <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-gray-200">Change Password</a>
+    <a href="{% url 'auth_user_profile' %}" class="block py-2 px-4 text-gray-700  hover:bg-gray-300 {% if request.path == '/dashboard/users/me' %}bg-gray-200 {% endif %}">Profile</a>
+    <a href="{% url 'auth_user_profile_update' %}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 {% if request.path == '/dashboard/users/me/update' %}bg-gray-200 {% endif %}">Edit Profile</a>
+    <a href="{% url 'auth_user_password_change' %}" class="block py-2 px-4 text-gray-700 hover:bg-gray-200 {% if request.path == '/dashboard/users/me/password-change' %}bg-gray-200 {% endif %}">Change Password</a>
   </nav>
 </aside>

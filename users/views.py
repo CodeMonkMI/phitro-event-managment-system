@@ -1,11 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
+from django.urls import reverse_lazy
 from users.models import User
-from users.forms import RegistrationForm, AssignRolesForm
+from users.forms import (
+    RegistrationForm,
+    AssignRolesForm,
+    AuthUserProfileUpdateForm,
+    AuthUserPasswordChangeForm,
+)
 from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from users.middleware import is_admin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import FormView
+from django.contrib.auth.views import PasswordChangeView
 
 # Create your views here.
 
@@ -94,19 +103,42 @@ def delete(request, id):
 
 @login_required
 def auth_user_profile(request: HttpRequest):
-    try:
-        user = User.objects.get(pk=request.user.pk)
-        print(user.id)
-        context = {
-            "name": f"{user.first_name} {user.last_name}",
-            "profile_picture": user.profile_picture.url,
-            "email": user.email,
-            "username": user.username,
-            "last_login": user.last_login,
-            "joined": user.date_joined,
-            "phone_number": user.phone_number,
-        }
 
-        return render(request, "user_profile.html", context)
-    except User.DoesNotExist:
-        return render(request, "user_profile.html")
+    user = User.objects.get(pk=request.user.pk)
+    print(user.id)
+    context = {
+        "name": f"{user.first_name} {user.last_name}",
+        "profile_picture": user.profile_picture.url,
+        "email": user.email,
+        "username": user.username,
+        "last_login": user.last_login,
+        "joined": user.date_joined,
+        "phone_number": user.phone_number,
+    }
+
+    return render(request, "user_profile.html", context)
+
+
+class AuthUserProfileUpdateView(LoginRequiredMixin, FormView):
+    template_name = "user_profile_update.html"
+    form_class = AuthUserProfileUpdateForm
+
+    def get_form_kwargs(self):
+
+        kwargs = super().get_form_kwargs()
+        kwargs["instance"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "User profile updated successfully")
+        return redirect("auth_user_profile")
+
+
+class AuthUserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = "user_profile_password_change.html"
+    form_class = AuthUserPasswordChangeForm
+
+    def form_valid(self, form):
+        messages.success(self.request, "Your password has been updated.")
+        return redirect("auth_user_profile")

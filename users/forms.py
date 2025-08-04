@@ -1,9 +1,51 @@
 import re
 from django import forms
 from users.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    AuthenticationForm,
+    UserChangeForm,
+    PasswordChangeForm,
+)
 from users.mixin import StyledFormMixin
 from django.contrib.auth.models import Group
+
+
+class AuthUserProfileUpdateForm(StyledFormMixin, UserChangeForm):
+
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "profile_picture",
+            "phone_number",
+        ]
+
+    def __init__(self, *arg, **kwarg):
+        super().__init__(*arg, **kwarg)
+        self.fields.pop("password")
+
+    def clean_phone_number(self):
+        phone = (self.cleaned_data.get("phone_number") or "").strip()
+
+        if not phone:
+            return phone
+
+        pattern = re.compile(r"^(\+8801[3-9]\d{8}|01[3-9]\d{8})$")
+        if not pattern.match(phone):
+            raise forms.ValidationError(
+                "Enter a valid Bangladeshi mobile number: "
+                "`+8801XXXXXXXXX` or `01XXXXXXXXX`."
+            )
+        return phone
+
+
+class AuthUserPasswordChangeForm(StyledFormMixin, PasswordChangeForm):
+
+    pass
 
 
 class RegistrationForm(StyledFormMixin, UserCreationForm):

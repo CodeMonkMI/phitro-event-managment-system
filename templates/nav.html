@@ -3,6 +3,6 @@
     {% comment %} <span class="text-2xl font-bold text-blue-600">EVMS</span> {% endcomment %}
   </div>
   <div class="flex items-center gap-6">
-    <img src="https://i.pravatar.cc/40?img=2" class="w-10 h-10 rounded-full object-cover border-2 border-blue-500 cursor-pointer" alt="Profile" />
+    <a href="{% url 'auth_user_profile' %}"><img src="{{ request.user.profile_picture.url }}" class="w-10 h-10 rounded-full object-cover border-2 border-blue-500 cursor-pointer" alt="Profile" /></a>
   </div>
 </header>
