@@ -148,7 +148,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-LOGIN_URL = "sign_in"
+LOGIN_URL = "/sign-in"
+LOGIN_REDIRECT_URL = "/dashboard/dashboard-routing"
+LOGOUT_REDIRECT_URL = "/sign-in"
+
 
 FRONTEND_URL = config("FRONTEND_URL", default="http://127.0.0.1:8000")
 

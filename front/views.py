@@ -1,198 +1,154 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views import View
 from events.models import Events
-from django.db.models import Count, Q
-from datetime import date
+from django.db.models import Count
 import random
 from users.forms import RegistrationForm, LoginForm
 from django.contrib import messages
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
 from users.models import User
 from django.contrib.auth.tokens import default_token_generator
-
-
-events_images = [
-    "https://plus.unsplash.com/premium_photo-1661306437817-8ab34be91e0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://images.unsplash.com/photo-1556125574-d7f27ec36a06?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://images.unsplash.com/photo-1464047736614-af63643285bf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://plus.unsplash.com/premium_photo-1681487469745-91d1d8a5836b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://images.unsplash.com/photo-1502635385003-ee1e6a1a742d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8ZXZlbnRzfGVufDB8fDB8fHww",
-    "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1549451371-64aa98a6f660?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://plus.unsplash.com/premium_photo-1672354234377-38ef695dd2ed?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1643759543584-fb6f448d42d4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://plus.unsplash.com/premium_photo-1664302654457-399bf1bff533?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://plus.unsplash.com/premium_photo-1661486750841-c02a9d22a1a6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1515169067868-5387ec356754?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://plus.unsplash.com/premium_photo-1686783007953-4fcb40669dd8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://plus.unsplash.com/premium_photo-1664303677453-ca2ad8f7dd8d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1599943821034-8cb5c7526922?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjR8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1665672231047-34208112af96?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzN8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1625062798671-a2b45295b6e7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1528605105345-5344ea20e269?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nzl8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1636293235717-7895bf07abc8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODN8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1561489401-fc2876ced162?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTF8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-    "https://images.unsplash.com/photo-1571645163064-77faa9676a46?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTZ8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D",
-]
+from django.views.generic import ListView, FormView, TemplateView, DetailView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .data import events_images
+from django.http import Http404
 
 
 # Event related views
-def index(request):
-    name = request.GET.get("name")
-    location = request.GET.get("location")
+class IndexView(ListView):
+    model = Events
+    template_name = "front.html"
+    context_object_name = "events"
 
-    events = (
-        Events.objects.select_related("category")
-        .prefetch_related("participants")
-        .annotate(nums_participants=Count("participants"))
-        .order_by("-date")
-    )
+    def get_queryset(self):
 
-    if name != None and name != "":
-        events = events.filter(name__icontains=name)
-    if location != None and location != "":
-        events = events.filter(location__icontains=location)
+        name = self.request.GET.get("name")
+        location = self.request.GET.get("location")
 
-    context = {
-        "events": events,
-    }
-    return render(request, "front.html", context)
-
-
-def single(request, id):
-    try:
-        event = (
-            Events.objects.prefetch_related("participants")
-            .select_related("category")
-            .get(pk=id)
+        qs = (
+            Events.objects.select_related("category")
+            .prefetch_related("participants")
+            .annotate(nums_participants=Count("participants"))
+            .order_by("-date")
         )
-        related_events = (
+
+        if name != None and name != "":
+            qs = qs.filter(name__icontains=name)
+        if location != None and location != "":
+            qs = qs.filter(location__icontains=location)
+
+        return qs
+
+
+class SingleView(DetailView):
+    pk_url_kwarg = "id"
+    template_name = "front_event_single.html"
+    model = Events
+    context_object_name = "event"
+
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        try:
+            return super().get(request, *args, **kwargs)
+        except Http404:
+            return redirect("not_found")
+
+    def get_queryset(self):
+        return Events.objects.prefetch_related("participants").select_related(
+            "category"
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        event = self.get_object()
+
+        context["related_events"] = (
             Events.objects.select_related("category")
             .prefetch_related("participants")
             .annotate(nums_participants=Count("participants"))
             .order_by("-date")[:4]
         )
+        context["images"] = random.sample(events_images, 6)
 
-        images = random.sample(events_images, 6)
-        context = {
-            "event": event,
-            "related_events": related_events,
-            "images": images,
-        }
-
-        user = request.user
-
-        is_participating = event.participants.filter(pk=user.pk).exists()
-        context["is_participating"] = is_participating
-
-        return render(request, "front_event_single.html", context)
-    except Events.DoesNotExist:
-        return render(request, "front_event_single.html")
-
-
-@login_required()
-def front_event_response(request, id):
-    try:
-        event = (
-            Events.objects.prefetch_related("participants")
-            .select_related("category")
-            .get(pk=id)
+        user = self.request.user
+        context["is_participating"] = (
+            user.is_authenticated and event.participants.filter(pk=user.pk).exists()  # type: ignore
         )
+        return context
 
+
+class FrontEventResponseView(LoginRequiredMixin, DetailView):
+    template_name = ""
+    pk_url_kwarg = "id"
+    context_object_name = "event"
+    model = Events
+
+    def post(self, request, *args, **kwargs):
+        event = self.get_object()
         user = request.user
-        if request.method == "POST":
-            if event.participants.filter(pk=user.pk).exists():
-                return redirect("front_event_single", id=id)
-
-            event.participants.add(user)
+        if not event.participants.filter(pk=user.pk).exists():  # type: ignore
+            event.participants.add(user)  # type: ignore
             msg = "Thanks you for joining this event!"
             messages.success(request, msg)
-
-        return redirect("front_event_single", id=id)
-    except Events.DoesNotExist:
-        return redirect("not_found", id=id)
+        return redirect("front_event_single", id=event.id)  # type: ignore
 
 
 # auth related views
-def sign_in(request):
-    if request.user and request.user.is_authenticated:
-        return redirect("dashboard_routing")
-    if request.method == "POST":
+class SignInView(LoginView):
+    template_name = "sign_in.html"
+    authentication_form = LoginForm
+    redirect_authenticated_user = True
 
-        form = LoginForm(data=request.POST)
-        context = {"form": form}
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
+    def form_invalid(self, form: AuthenticationForm) -> HttpResponse:
+        messages.error(self.request, "You provided credentials are invalid!")
+        return super().form_invalid(form)
+
+
+class SignUpView(FormView):
+    template_name = "sign_up.html"
+    form_class = RegistrationForm
+    success_url = reverse_lazy("sign_in")
+
+    def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        if request.user.is_authenticated:
             return redirect("dashboard_routing")
-        else:
-            messages.error(request, "You provided credentials are invalid!")
-        return render(request, "sign_in.html", context)
+        return super().dispatch(request, *args, **kwargs)
 
-    form = LoginForm()
-    context = {"form": form}
-    return render(request, "sign_in.html", context)
-
-
-def sign_up(request):
-    if request.user and request.user.is_authenticated:
-        return redirect("dashboard_routing")
-    if request.method == "POST":
-
-        form = RegistrationForm(request.POST)
-        context = {"form": form}
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            messages.success(
-                request, "Sign up successfully! Activate you account before sign in!"
-            )
-            print("user created")
-            print(user)
-            return redirect("sign_in")
-
-        return render(request, "sign_up.html", context)
-
-    form = RegistrationForm()
-    context = {"form": form}
-    return render(request, "sign_up.html", context)
+    def form_valid(self, form):
+        user = form.save()
+        user.is_active = False
+        user.save()
+        messages.success(
+            self.request, "Sign up successfully! Activate you account before sign in!"
+        )
+        return super().form_valid(form)
 
 
-def activate_user(request, user_id, token):
-    try:
-        user = User.objects.get(pk=user_id)
-        if default_token_generator.check_token(user, token):
+class ActivateUserView(View):
+
+    def get(self, request, user_id, token, *args, **kwargs):
+        try:
+            user = User.objects.get(pk=user_id)
+            if not default_token_generator.check_token(user, token):
+                raise Exception("Invalid!")
+
             user.is_active = True
             user.save()
-            return redirect("sign_in")
-        else:
+
+        except Exception as e:
             return redirect("not_found")
-    except Exception as e:
-        return redirect("not_found")
 
 
-def sign_out(request):
-    if request.method == "POST":
-        logout(request)
-        messages.success(request, "Sign out successfully!")
-        return redirect("sign_in")
-    return redirect("not_found")
+class SignOutView(LogoutView):
+    template_name = "sign_in.html"
 
 
 # other views
-def not_found(request):
+class NotFoundView(TemplateView):
+    template_name = "not_found.html"
 
-    return render(request, "not_found.html")
 
-
-# other views
-@login_required
-def no_permissions(request):
-    return render(request, "no_permissions.html")
+class NoPermissionView(LoginRequiredMixin, TemplateView):
+    template_name = "no_permissions.html"
