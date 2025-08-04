@@ -136,6 +136,8 @@ class ActivateUserView(View):
 
             user.is_active = True
             user.save()
+            messages.success(request, "You account is activated. Now you can sign in")
+            return redirect("sign_in")
 
         except Exception as e:
             return redirect("not_found")
