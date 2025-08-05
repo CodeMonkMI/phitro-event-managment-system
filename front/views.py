@@ -11,10 +11,18 @@ from django.contrib import messages
 from users.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.views.generic import ListView, FormView, TemplateView, DetailView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import (
+    LoginView,
+    LogoutView,
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetCompleteView,
+    PasswordResetConfirmView,
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .data import events_images
 from django.http import Http404
+from front.forms import CustomPasswordResetForm, CustomSetPasswordForm
 
 
 # Event related views
@@ -154,3 +162,26 @@ class NotFoundView(TemplateView):
 
 class NoPermissionView(LoginRequiredMixin, TemplateView):
     template_name = "no_permissions.html"
+
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = "custom_password_reset.html"
+    form_class = CustomPasswordResetForm
+    success_url = reverse_lazy("password_reset")
+    email_template_name = "email/password_reset_email.html"
+
+    def form_valid(self, form):
+        messages.success(self.request, "We have send you email. Please check you inbox")
+        return super().form_valid(form)
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "custom_password_reset_confirm.html"
+    form_class = CustomSetPasswordForm
+    success_url = reverse_lazy("sign_in")
+
+    def form_valid(self, form):
+        messages.success(
+            self.request, "You password reset successfully. Sign to proceed further."
+        )
+        return super().form_valid(form)

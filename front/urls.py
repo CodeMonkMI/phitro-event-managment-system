@@ -10,6 +10,8 @@ from front.views import (
     SignInView,
     SignUpView,
     SignOutView,
+    CustomPasswordResetConfirmView,
+    CustomPasswordResetView,
 )
 
 urlpatterns = [
@@ -29,5 +31,11 @@ urlpatterns = [
         "activate/<uuid:user_id>/<str:token>",
         ActivateUserView.as_view(),
         name="activate_user",
+    ),
+    path("password-reset/", CustomPasswordResetView.as_view(), name="password_reset"),
+    path(
+        "password-reset/confirm/<uidb64>/<token>/",
+        CustomPasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
     ),
 ]
