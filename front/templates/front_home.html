@@ -65,58 +65,10 @@
     </section>
 
     <!-- SPEAKERS -->
-    <section class="py-20 bg-white text-center">
-      <h2 class="text-sm uppercase text-pink-500 font-semibold mb-3">Conference Speakers</h2>
-      <h3 class="text-3xl md:text-4xl font-bold mb-10">Meet The Experts</h3>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto px-6">
-        <div class="bg-gray-50 rounded-xl p-6 shadow-md">
-          <img src="https://html.themeadapt.com/evente/assets/img/team/team-3/team.jpg" alt="Speaker" class="rounded-full mx-auto mb-4" />
-          <h4 class="font-bold">John Carter</h4>
-          <p class="text-gray-500 text-sm">SEO Strategist</p>
-        </div>
-        <div class="bg-gray-50 rounded-xl p-6 shadow-md">
-          <img src="https://html.themeadapt.com/evente/assets/img/team/team-3/team-2.jpg" alt="Speaker" class="rounded-full mx-auto mb-4" />
-          <h4 class="font-bold">Maria Lopez</h4>
-          <p class="text-gray-500 text-sm">Marketing Director</p>
-        </div>
-        <div class="bg-gray-50 rounded-xl p-6 shadow-md">
-          <img src="https://html.themeadapt.com/evente/assets/img/team/team-3/team-3.jpg" alt="Speaker" class="rounded-full mx-auto mb-4" />
-          <h4 class="font-bold">James Lee</h4>
-          <p class="text-gray-500 text-sm">Growth Expert</p>
-        </div>
-        <div class="bg-gray-50 rounded-xl p-6 shadow-md">
-          <img src="https://html.themeadapt.com/evente/assets/img/team/team-3/team-4.jpg" alt="Speaker" class="rounded-full mx-auto mb-4" />
-          <h4 class="font-bold">Anna Kim</h4>
-          <p class="text-gray-500 text-sm">Brand Consultant</p>
-        </div>
-      </div>
-    </section>
+    {% include 'home/speaker.html' %}
 
     <!-- PRICING -->
-    <section class="py-20 bg-gray-50 text-center">
-      <h2 class="text-sm uppercase text-pink-500 font-semibold mb-3">Pricing</h2>
-      <h3 class="text-3xl md:text-4xl font-bold mb-10">Explore Flexible Pricing Plans</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto px-6">
-        <div class="bg-white border rounded-2xl p-8 shadow">
-          <h4 class="font-bold mb-2">Basic Pass</h4>
-          <p class="text-gray-500 mb-4">Access to key sessions</p>
-          <p class="text-3xl font-bold mb-6">$19.00</p>
-          <a href="#" class="bg-pink-500 hover:bg-pink-600 px-6 py-2 text-white rounded-full">Buy Now</a>
-        </div>
-        <div class="bg-white border rounded-2xl p-8 shadow">
-          <h4 class="font-bold mb-2">Standard Pass</h4>
-          <p class="text-gray-500 mb-4">Full-day access</p>
-          <p class="text-3xl font-bold mb-6">$24.00</p>
-          <a href="#" class="bg-pink-500 hover:bg-pink-600 px-6 py-2 text-white rounded-full">Buy Now</a>
-        </div>
-        <div class="bg-white border rounded-2xl p-8 shadow">
-          <h4 class="font-bold mb-2">Platinum Pass</h4>
-          <p class="text-gray-500 mb-4">All sessions + networking</p>
-          <p class="text-3xl font-bold mb-6">$99.00</p>
-          <a href="#" class="bg-pink-500 hover:bg-pink-600 px-6 py-2 text-white rounded-full">Buy Now</a>
-        </div>
-      </div>
-    </section>
+    {% include 'home/pricing.html' %}
 
     <!-- SPONSORS -->
     <section class="py-16 bg-indigo-900 text-white text-center">
@@ -158,39 +110,5 @@
         </div>
       </div>
     </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-indigo-900 text-gray-300 py-12">
-      <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div>
-          <h4 class="text-white text-xl font-bold mb-3">Evento</h4>
-          <p>
-            info@evento.com<br />123 Marketing Street<br />New York, USA
-          </p>
-        </div>
-        <div>
-          <h5 class="text-white font-semibold mb-3">Quick Links</h5>
-          <ul class="space-y-2">
-            <li>
-              <a href="#" class="hover:text-pink-400">About</a>
-            </li>
-            <li>
-              <a href="#" class="hover:text-pink-400">Speakers</a>
-            </li>
-            <li>
-              <a href="#" class="hover:text-pink-400">Schedule</a>
-            </li>
-            <li>
-              <a href="#" class="hover:text-pink-400">Tickets</a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h5 class="text-white font-semibold mb-3">Follow Us</h5>
-          <p>Facebook • Twitter • LinkedIn</p>
-        </div>
-      </div>
-      <div class="text-center text-gray-500 text-sm mt-10 border-t border-gray-700 pt-6">© 2025 Evento. All rights reserved.</div>
-    </footer>
   </div>
 {% endblock %}

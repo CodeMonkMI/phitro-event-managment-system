@@ -73,6 +73,29 @@ class EventsView(ListView):
             qs = qs.filter(location__icontains=location)
 
         return qs
+class ContactUsView(ListView):
+    model = Events
+    template_name = "front_contact_us.html"
+    context_object_name = "events"
+
+    def get_queryset(self):
+
+        name = self.request.GET.get("name")
+        location = self.request.GET.get("location")
+
+        qs = (
+            Events.objects.select_related("category")
+            .prefetch_related("participants")
+            .annotate(nums_participants=Count("participants"))
+            .order_by("-date")
+        )
+
+        if name != None and name != "":
+            qs = qs.filter(name__icontains=name)
+        if location != None and location != "":
+            qs = qs.filter(location__icontains=location)
+
+        return qs
 
 
 class SingleView(DetailView):

@@ -12,12 +12,14 @@ from front.views import (
     SignOutView,
     CustomPasswordResetConfirmView,
     CustomPasswordResetView,
-    HomeView
+    HomeView,
+    ContactUsView
 )
 
 urlpatterns = [
-    path("", HomeView.as_view(), name="front_home"),
-    path("events", EventsView.as_view(), name="front"),
+    path("", HomeView.as_view(), name="front"),
+    path("contact-us", ContactUsView.as_view(), name="front_contact"),
+    path("events", EventsView.as_view(), name="front_events"),
     path("events/<uuid:id>", SingleView.as_view(), name="front_event_single"),
     path(
         "events/<uuid:id>/response",

@@ -1,0 +1,67 @@
+{% extends 'front_base.html' %}
+
+{% block title %}
+  Contact Us
+{% endblock %}
+{% block front_content %}
+  <div class="font-sans text-gray-800">
+    <!-- PAGE TITLE -->
+    <section class="bg-indigo-900 text-white text-center flex justify-center items-center" style="background: url('https://html.themeadapt.com/evente/assets/img/breadcrumb/breadcrumb.jpg');background-position: top;height: 400px;">
+      <div>
+        <h1 class="text-4xl font-bold mb-2">Contact With Us</h1>
+        <p class="text-gray-300">Home > Contact</p>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="py-20 bg-white">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-6 items-start">
+        <!-- Map -->
+        <div class="h-40">
+          <iframe class="saturate-0 w-full h-full rounded-[20px]" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31078.361591144112!2d-74.0256365664179!3d40.705584751235754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1724572184688!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" spellcheck="false" aria-label="To enrich screen reader interactions, please activate Accessibility in Grammarly extension settings"></iframe>
+        </div>
+        <!-- Contact Info -->
+        <div class="bg-gray-50 rounded-2xl p-8 shadow-md">
+          <h2 class="text-2xl font-bold mb-4">Contact Details</h2>
+          <p class="text-gray-600 mb-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam purus sit amet lacus venenatis lectus magna fringilla urna.</p>
+          <ul class="space-y-4">
+            <li>
+              <strong>📍 Address:</strong> 231 Urban Downtown Mall, USA
+            </li>
+            <li>
+              <strong>📞 Phone:</strong> +123 456 700196
+            </li>
+            <li>
+              <strong>📧 Email:</strong> info@gmail.com
+            </li>
+          </ul>
+          <div class="flex gap-4 mt-6 text-xl">
+            <a href="#" class="hover:text-pink-500">🌐</a>
+            <a href="#" class="hover:text-pink-500">🐦</a>
+            <a href="#" class="hover:text-pink-500">📸</a>
+            <a href="#" class="hover:text-pink-500">💼</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MESSAGE FORM -->
+    <section class="py-16 bg-gray-50">
+      <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow p-8">
+        <h3 class="text-2xl font-bold mb-6 text-center">Send Us Message</h3>
+        <form action="#" class="space-y-4">
+          <div class="grid md:grid-cols-2 gap-4">
+            <input type="text" placeholder="Name" class="border rounded-lg px-4 py-3 w-full focus:outline-none my-3" />
+            <input type="email" placeholder="Email" class="border rounded-lg px-4 py-3 w-full focus:outline-none my-3" />
+          </div>
+          <input type="text" placeholder="Phone" class="border rounded-lg px-4 py-3 w-full focus:outline-none my-3" />
+          <input type="text" placeholder="Website" class="border rounded-lg px-4 py-3 w-full focus:outline-none my-3" />
+          <textarea rows="4" placeholder="Comment" class="border rounded-lg px-4 py-3 w-full focus:outline-none my-3"></textarea>
+          <div class="text-center pt-4">
+            <button class="bg-indigo-700 hover:bg-indigo-800 text-white px-6 py-3 rounded-full font-semibold">SUBMIT YOUR MESSAGE</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{% endblock %}
