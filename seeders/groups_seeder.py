@@ -11,6 +11,7 @@ def seed_groups():
     groups = ["Admin", "Organizer", "Participant"]
     for group_name in groups:
         Group.objects.get_or_create(name=group_name)
+        print(f"{group_name} - Groups seeded successfully.")
     print("Groups seeded successfully.")
 
 if __name__ == "__main__":

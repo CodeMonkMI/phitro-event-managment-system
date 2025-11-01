@@ -56,17 +56,20 @@ class EventsView(ListView):
     model = Events
     template_name = "front_events.html"
     context_object_name = "events"
+    paginate_by=4
 
     def get_queryset(self):
 
         name = self.request.GET.get("name")
         location = self.request.GET.get("location")
 
+        now = timezone.now()
         qs = (
             Events.objects.select_related("category")
             .prefetch_related("participants")
             .annotate(nums_participants=Count("participants"))
-            .order_by("-date")
+            .filter(date__gte=now)
+            .order_by("date")
         )
 
         if name != None and name != "":
@@ -127,7 +130,7 @@ class SingleView(DetailView):
             .annotate(nums_participants=Count("participants"))
             .order_by("-date")[:4]
         )
-        context["images"] = random.sample(events_images, 6)
+        context["images"] = random.sample(events_images, 8)
 
         user = self.request.user
         context["is_participating"] = (

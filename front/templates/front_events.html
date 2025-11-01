@@ -30,7 +30,7 @@
       {% for event in events %}
         <div class="flex bg-white h-80 rounded-2xl shadow-lg overflow-hidden">
           <div class="w-1/3 h-full overflow-hidden">
-            <img src="{{ event.cover_url.url|default:'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg' }}" alt="Event Cover" class="w-full h-full object-cover hover:scale-110 duration-500 transition-transform ease-in-out cursor-pointer" />
+            <img src="{{ event|event_image_url }}" alt="Event Cover" class="w-full h-full object-cover hover:scale-110 duration-500 transition-transform ease-in-out cursor-pointer" />
           </div>
           <div class="p-6 flex-1 flex justify-start items-center">
             <div>
@@ -49,6 +49,29 @@
         </div>
       {% endfor %}
     </div>
+    {% if is_paginated %}
+      <div class="flex justify-center items-center space-x-2 mt-10">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Previous</a>
+        {% else %}
+          <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed">Previous</span>
+        {% endif %}
+
+        {% for num in paginator.page_range %}
+          {% if page_obj.number == num %}
+            <span class="px-4 py-2 bg-blue-600 text-white rounded-lg">{{ num }}</span>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Next</a>
+        {% else %}
+          <span class="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed">Next</span>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 
   {% include 'home/pricing.html' %}
