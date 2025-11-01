@@ -26,9 +26,33 @@ from front.forms import CustomPasswordResetForm, CustomSetPasswordForm
 
 
 # Event related views
-class IndexView(ListView):
+class HomeView(ListView):
     model = Events
-    template_name = "front.html"
+    template_name = "front_home.html"
+    context_object_name = "events"
+
+    def get_queryset(self):
+
+        name = self.request.GET.get("name")
+        location = self.request.GET.get("location")
+
+        qs = (
+            Events.objects.select_related("category")
+            .prefetch_related("participants")
+            .annotate(nums_participants=Count("participants"))
+            .order_by("-date")
+        )
+
+        if name != None and name != "":
+            qs = qs.filter(name__icontains=name)
+        if location != None and location != "":
+            qs = qs.filter(location__icontains=location)
+
+        return qs
+
+class EventsView(ListView):
+    model = Events
+    template_name = "front_events.html"
     context_object_name = "events"
 
     def get_queryset(self):

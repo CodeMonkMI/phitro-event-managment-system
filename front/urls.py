@@ -6,16 +6,18 @@ from front.views import (
     NoPermissionView,
     ActivateUserView,
     FrontEventResponseView,
-    IndexView,
+    EventsView,
     SignInView,
     SignUpView,
     SignOutView,
     CustomPasswordResetConfirmView,
     CustomPasswordResetView,
+    HomeView
 )
 
 urlpatterns = [
-    path("", IndexView.as_view(), name="front"),
+    path("", HomeView.as_view(), name="front_home"),
+    path("events", EventsView.as_view(), name="front"),
     path("events/<uuid:id>", SingleView.as_view(), name="front_event_single"),
     path(
         "events/<uuid:id>/response",
