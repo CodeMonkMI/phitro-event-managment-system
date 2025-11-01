@@ -17,6 +17,7 @@ class Events(models.Model):
         blank=True,
         null=True,
         default="event_image/default_image.jpg",
+        max_length=500,
     )
 
     participants = models.ManyToManyField(User, related_name="events")

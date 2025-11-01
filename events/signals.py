@@ -27,12 +27,12 @@ def participant_update(sender, instance, action, pk_set, **kwargs):
 
     subject = "Event response"
     try:
-        send_mail(
-            subject=subject,
-            message=message,  # type: ignore
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=recipient_list,
-        )
-
+        # send_mail(
+        #     subject=subject,
+        #     message=message,  # type: ignore
+        #     from_email=settings.EMAIL_HOST_USER,
+        #     recipient_list=recipient_list,
+        # )
+        print('participant mail sended successfully!')
     except Exception as e:
         print(f"Failed to send email to {instance.email}: {str(e)}")

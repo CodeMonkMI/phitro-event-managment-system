@@ -21,7 +21,13 @@
         <nav>
           <ul class="flex gap-6">
             <li>
-              <a href="{% url 'front' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Events</a>
+              <a href="{% url 'front' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Home</a>
+            </li>
+            <li>
+              <a href="{% url 'front_events' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Events</a>
+            </li>
+            <li>
+              <a href="{% url 'front_contact' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Contact Us</a>
             </li>
             {% if user.is_authenticated %}
               {% if user|in_groups:'Admin' %}
@@ -54,6 +60,40 @@
     {% block front_content %}
 
     {% endblock %}
+
+    <!-- FOOTER -->
+    <footer class="bg-indigo-900 text-gray-300 py-12">
+      <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h4 class="text-white text-xl font-bold mb-3">Evento</h4>
+          <p>
+            info@evento.com<br />123 Marketing Street<br />New York, USA
+          </p>
+        </div>
+        <div>
+          <h5 class="text-white font-semibold mb-3">Quick Links</h5>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="hover:text-pink-400">About</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-pink-400">Speakers</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-pink-400">Schedule</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-pink-400">Tickets</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h5 class="text-white font-semibold mb-3">Follow Us</h5>
+          <p>Facebook • Twitter • LinkedIn</p>
+        </div>
+      </div>
+      <div class="text-center text-gray-500 text-sm mt-10 border-t border-gray-700 pt-6">© 2025 Evento. All rights reserved.</div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script>
   </body>

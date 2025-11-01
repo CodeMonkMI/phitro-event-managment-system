@@ -19,6 +19,7 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
     PasswordResetConfirmView,
 )
+from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .data import events_images
 from django.http import Http404
@@ -26,9 +27,60 @@ from front.forms import CustomPasswordResetForm, CustomSetPasswordForm
 
 
 # Event related views
-class IndexView(ListView):
+class HomeView(ListView):
     model = Events
-    template_name = "front.html"
+    template_name = "front_home.html"
+    context_object_name = "events"
+
+    def get_queryset(self):
+
+        name = self.request.GET.get("name")
+        location = self.request.GET.get("location")
+        now = timezone.now()
+        qs = (
+            Events.objects.select_related("category")
+            .prefetch_related("participants")
+            .annotate(nums_participants=Count("participants"))
+            .filter(date__gte=now)
+            .order_by("date")
+        )
+
+        if name != None and name != "":
+            qs = qs.filter(name__icontains=name)
+        if location != None and location != "":
+            qs = qs.filter(location__icontains=location)
+
+        return qs[:4]
+
+class EventsView(ListView):
+    model = Events
+    template_name = "front_events.html"
+    context_object_name = "events"
+    paginate_by=4
+
+    def get_queryset(self):
+
+        name = self.request.GET.get("name")
+        location = self.request.GET.get("location")
+
+        now = timezone.now()
+        qs = (
+            Events.objects.select_related("category")
+            .prefetch_related("participants")
+            .annotate(nums_participants=Count("participants"))
+            .filter(date__gte=now)
+            .order_by("date")
+        )
+
+        if name != None and name != "":
+            qs = qs.filter(name__icontains=name)
+        if location != None and location != "":
+            qs = qs.filter(location__icontains=location)
+
+        return qs
+class ContactUsView(ListView):
+    model = Events
+    template_name = "front_contact_us.html"
     context_object_name = "events"
 
     def get_queryset(self):
@@ -78,7 +130,7 @@ class SingleView(DetailView):
             .annotate(nums_participants=Count("participants"))
             .order_by("-date")[:4]
         )
-        context["images"] = random.sample(events_images, 6)
+        context["images"] = random.sample(events_images, 8)
 
         user = self.request.user
         context["is_participating"] = (

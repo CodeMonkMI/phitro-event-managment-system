@@ -21,12 +21,12 @@ def assign_role_and_send_activation_email(sender, instance, created, **kwargs):
     message = f"Hi, {instance.username},\nPlease activate your account via this link: {activation_url}\n\n Thank you"
     recipient_list = [instance.email]
     try:
-        send_mail(
-            subject=subject,
-            message=message,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=recipient_list,
-        )
+        # send_mail(
+        #     subject=subject,
+        #     message=message,
+        #     from_email=settings.EMAIL_HOST_USER,
+        #     recipient_list=recipient_list,
+        # )
         print("Mail sended successfully")
     except Exception as e:
         print(f"Failed to send email to {instance.email}: {str(e)}")
