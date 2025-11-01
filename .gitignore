@@ -9,8 +9,9 @@ __pycache__/
 todoapp_env/
 venv/
 env/
+.evms_env/
 ENV/
-.venv/
+.venv/                          
 .env/
 *.env
 
