@@ -19,6 +19,7 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
     PasswordResetConfirmView,
 )
+from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .data import events_images
 from django.http import Http404
@@ -35,12 +36,13 @@ class HomeView(ListView):
 
         name = self.request.GET.get("name")
         location = self.request.GET.get("location")
-
+        now = timezone.now()
         qs = (
             Events.objects.select_related("category")
             .prefetch_related("participants")
             .annotate(nums_participants=Count("participants"))
-            .order_by("-date")
+            .filter(date__gte=now)
+            .order_by("date")
         )
 
         if name != None and name != "":
@@ -48,7 +50,7 @@ class HomeView(ListView):
         if location != None and location != "":
             qs = qs.filter(location__icontains=location)
 
-        return qs
+        return qs[:4]
 
 class EventsView(ListView):
     model = Events

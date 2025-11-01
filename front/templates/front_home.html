@@ -39,28 +39,22 @@
     <section class="py-20 bg-gray-50 text-center">
       <h2 class="text-sm uppercase text-pink-500 font-semibold mb-3">Event Schedule</h2>
       <h3 class="text-3xl md:text-4xl font-bold mb-8">Our Events Schedule Plan</h3>
+
       <div class="max-w-3xl mx-auto space-y-8">
-        <div class="bg-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-center">
-          <div class="text-left">
-            <h4 class="font-bold">Innovate 2025: Business Transformation Strategy</h4>
-            <p class="text-gray-500">10:00 AM - Main Hall</p>
+        {% for event in events %}
+          <div class="bg-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-center hover:shadow-lg transition">
+            <div class="text-left">
+              <h4 class="font-bold">{{ event.name }}</h4>
+              <p class="text-gray-500">{{ event.date }} - {{ event.location }}</p>
+            </div>
+            <a href="{% url 'front_event_single' event.id %}" class="text-pink-500 font-semibold">View Details</a>
           </div>
-          <a href="#" class="text-pink-500 font-semibold">View Details</a>
-        </div>
-        <div class="bg-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-center">
-          <div class="text-left">
-            <h4 class="font-bold">Global Insights: Digital Tech Future</h4>
-            <p class="text-gray-500">12:30 PM - Room A</p>
+        {% empty %}
+          <!-- 🟢 If no events found -->
+          <div class="bg-white rounded-xl p-8 shadow-md">
+            <p class="text-gray-600 text-lg">No upcoming events found. Please check back later!</p>
           </div>
-          <a href="#" class="text-pink-500 font-semibold">View Details</a>
-        </div>
-        <div class="bg-white rounded-xl p-6 shadow-md flex flex-col md:flex-row justify-between items-center">
-          <div class="text-left">
-            <h4 class="font-bold">Creative Marketing Strategies Panel</h4>
-            <p class="text-gray-500">2:30 PM - Conference Hall</p>
-          </div>
-          <a href="#" class="text-pink-500 font-semibold">View Details</a>
-        </div>
+        {% endfor %}
       </div>
     </section>
 
@@ -71,16 +65,7 @@
     {% include 'home/pricing.html' %}
 
     <!-- SPONSORS -->
-    <section class="py-16 bg-indigo-900 text-white text-center">
-      <h2 class="text-sm uppercase text-pink-400 font-semibold mb-3">Sponsors</h2>
-      <h3 class="text-3xl font-bold mb-8">Official Sponsors & Partners</h3>
-      <div class="flex flex-wrap justify-center gap-6">
-        <img src="https://html.themeadapt.com/evente/assets/img/brands/brands.png" class="bg-white p-3 rounded-lg" alt="logo" />
-        <img src="https://html.themeadapt.com/evente/assets/img/brands/brands-2.png" class="bg-white p-3 rounded-lg" alt="logo" />
-        <img src="https://html.themeadapt.com/evente/assets/img/brands/brands-3.png" class="bg-white p-3 rounded-lg" alt="logo" />
-        <img src="https://html.themeadapt.com/evente/assets/img/brands/brands-3.png" class="bg-white p-3 rounded-lg" alt="logo" />
-      </div>
-    </section>
+    {% include 'home/sponsors.html' %}
 
     <!-- BLOG / INSIGHTS -->
     <section class="py-20 bg-white text-center">
