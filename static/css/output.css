@@ -1839,6 +1839,11 @@ video {
   color: rgb(236 72 153 / var(--tw-text-opacity, 1));
 }
 
+.hover\:text-pink-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(219 39 119 / var(--tw-text-opacity, 1));
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
