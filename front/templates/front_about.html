@@ -1,0 +1,145 @@
+{% extends 'front_base.html' %}
+
+{% block title %}
+  Eventos - Manage you events
+{% endblock %}
+{% block front_content %}
+  <div class="bg-white text-gray-900">
+    <!-- PAGE TITLE -->
+    <section class="bg-indigo-900 text-white text-center flex justify-center items-center" style="background: url('https://html.themeadapt.com/evente/assets/img/breadcrumb/breadcrumb.jpg');background-position: top;height: 400px;">
+      <div>
+        <h1 class="text-4xl font-bold mb-2">What We Have Done</h1>
+        <p class="text-gray-300">Home > About</p>
+      </div>
+    </section>
+    <!-- Hero / About Section -->
+    <section class="py-20 px-6 md:px-16 lg:px-24">
+      <div class="container mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center gap-x-10">
+          <!-- Left: Images -->
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <img src="https://images.pexels.com/photos/1181353/pexels-photo-1181353.jpeg" alt="Conference" class="rounded-2xl shadow-md grayscale w-full object-cover" />
+            </div>
+            <div class="flex items-start justify-center">
+              <img src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg" alt="Audience" class="rounded-2xl shadow-md mt-20 w-full object-cover" />
+            </div>
+          </div>
+
+          <!-- Right: Content -->
+          <div>
+            <button class="border border-indigo-500 text-indigo-500 px-4 py-1 rounded-full text-sm font-medium mb-4">ABOUT THIS EVENT</button>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Business Conference<br /> For Solving Problems</h2>
+            <p class="text-gray-600 mb-8 text-lg leading-relaxed">Join 500 others in Dhaka for a full day of inspiring keynotes and new connections at Bangladesh’s premier conference for software product engineers and innovators.</p>
+
+            <div class="flex flex-wrap gap-6 mb-8">
+              <div class="flex items-center gap-3 bg-indigo-50 px-4 py-3 rounded-xl">
+                <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 11.25c.414 0 .75-.336.75-.75s-.336-.75-.75-.75-.75.336-.75.75.336.75.75.75zM12 14.25v.008h.008V14.25H12z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-900">6,000+ People’s</h4>
+                  <p class="text-sm text-gray-600">In Person Meet-up</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3 bg-indigo-50 px-4 py-3 rounded-xl">
+                <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0v-1.5a1.5 1.5 0 013 0v1.5zm12-1.5a1.5 1.5 0 00-3 0v1.5a1.5 1.5 0 003 0v-1.5zM8.25 6.75a1.5 1.5 0 01-3 0v-1.5a1.5 1.5 0 013 0v1.5zm12-1.5a1.5 1.5 0 00-3 0v1.5a1.5 1.5 0 003 0v-1.5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12h19.5" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-900">Connect with</h4>
+                  <p class="text-sm text-gray-600">Industry Leaders</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-gray-500 leading-relaxed mb-8">When an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting, remaining essential unchanged.</p>
+
+            <a href="{% url 'front_events' %}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-700 transition">BUY TICKET →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Join Section -->
+    <section class="bg-gradient-to-r from-blue-700 to-pink-800 text-white py-20">
+      <div class="text-center mb-12">
+        <h2 class="text-sm uppercase text-pink-300 font-semibold mb-3">Event Information</h2>
+        <h3 class="text-3xl md:text-4xl font-bold">Why You Should Join Our Event</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto px-6">
+        <!-- Card 1 -->
+        <div class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center shadow-lg hover:bg-white/20 transition-all duration-300 hover:-translate-y-2">
+          <div class="bg-pink-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6.75v10.5M8.25 6.75v10.5" />
+            </svg>
+          </div>
+          <h4 class="font-semibold text-xl mb-3">Experienced Speakers</h4>
+          <p class="text-gray-200 text-sm leading-relaxed">Top professionals sharing real insights.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center shadow-lg hover:bg-white/20 transition-all duration-300 hover:-translate-y-2">
+          <div class="bg-green-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m6-6H6" />
+            </svg>
+          </div>
+          <h4 class="font-semibold text-xl mb-3">Live Workshops</h4>
+          <p class="text-gray-200 text-sm leading-relaxed">Hands-on coding and training sessions.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center shadow-lg hover:bg-white/20 transition-all duration-300 hover:-translate-y-2">
+          <div class="bg-indigo-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 15l3.75-3.75L8.25 7.5m7.5 7.5L12 11.25l3.75-3.75" />
+            </svg>
+          </div>
+          <h4 class="font-semibold text-xl mb-3">Exciting Q&A Sessions</h4>
+          <p class="text-gray-200 text-sm leading-relaxed">Ask experts about trends and technologies.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="cursor-pointer bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center shadow-lg hover:bg-white/20 transition-all duration-300 hover:-translate-y-2">
+          <div class="bg-yellow-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h4 class="font-semibold text-xl mb-3">Exclusive Giveaways</h4>
+          <p class="text-gray-200 text-sm leading-relaxed">Win tech gadgets and event merch.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Speakers Section -->
+    {% include 'home/speaker.html' %}
+
+    <!-- Sponsors Section -->
+    {% include 'home/sponsors.html' %}
+
+    <section class="py-16 bg-white">
+      <div class="max-w-5xl mx-auto bg-blue-500 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center px-8 md:px-12 py-10">
+        <div class="text-white mb-6 md:mb-0 md:w-1/2">
+          <p class="font-semibold text-sm uppercase opacity-90">Don’t Miss Our Future Updates!</p>
+          <h2 class="text-3xl font-extrabold">Get Subscribed Today!</h2>
+        </div>
+
+        <form class="flex items-center bg-white rounded-full overflow-hidden w-full md:w-1/2">
+          <input type="email" placeholder="your e-mail address" class="flex-1 px-5 py-3 outline-none text-gray-700 text-sm" required />
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all">SUBSCRIBE</button>
+        </form>
+      </div>
+    </section>
+  </div>
+{% endblock %}

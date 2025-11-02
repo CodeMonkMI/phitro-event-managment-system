@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <title>
       {% block title %}
-        EVMS
+        Eventos
       {% endblock %}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +16,7 @@
     <header class="bg-white shadow">
       <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <!-- Logo -->
-        <a href="{% url 'front' %}" class="text-2xl font-bold text-blue-700">EVMS</a>
+        <a href="{% url 'front' %}" class="text-2xl font-bold text-blue-700">Eventos</a>
         <!-- Navigation -->
         <nav>
           <ul class="flex gap-6">
@@ -24,10 +24,13 @@
               <a href="{% url 'front' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Home</a>
             </li>
             <li>
+              <a href="{% url 'front_about' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">About</a>
+            </li>
+            <li>
               <a href="{% url 'front_events' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Events</a>
             </li>
             <li>
-              <a href="{% url 'front_contact' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Contact Us</a>
+              <a href="{% url 'front_contact' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Contact</a>
             </li>
             {% if user.is_authenticated %}
               {% if user|in_groups:'Admin' %}
@@ -49,9 +52,6 @@
               <li>
                 <a href="{% url 'sign_in' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Sign In</a>
               </li>
-              <li>
-                <a href="{% url 'sign_up' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Sign Up</a>
-              </li>
             {% endif %}
           </ul>
         </nav>
@@ -65,34 +65,44 @@
     <footer class="bg-indigo-900 text-gray-300 py-12">
       <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <h4 class="text-white text-xl font-bold mb-3">Evento</h4>
+          <h4 class="text-white text-xl font-bold mb-3">Eventos</h4>
           <p>
-            info@evento.com<br />123 Marketing Street<br />New York, USA
+            mmislam027@gmail.com<br />Dhaka, Bangladesh
           </p>
         </div>
         <div>
           <h5 class="text-white font-semibold mb-3">Quick Links</h5>
           <ul class="space-y-2">
             <li>
-              <a href="#" class="hover:text-pink-400">About</a>
+              <a href="{% url 'front' %}" class="text-white hover:text-pink-600 font-medium transition">Home</a>
             </li>
             <li>
-              <a href="#" class="hover:text-pink-400">Speakers</a>
+              <a href="{% url 'front_about' %}" class="text-white hover:text-pink-600 font-medium transition">About</a>
             </li>
             <li>
-              <a href="#" class="hover:text-pink-400">Schedule</a>
+              <a href="{% url 'front_events' %}" class="text-white hover:text-pink-600 font-medium transition">Events</a>
             </li>
             <li>
-              <a href="#" class="hover:text-pink-400">Tickets</a>
+              <a href="{% url 'front_contact' %}" class="text-white hover:text-pink-600 font-medium transition">Contact</a>
             </li>
           </ul>
         </div>
         <div>
           <h5 class="text-white font-semibold mb-3">Follow Us</h5>
-          <p>Facebook • Twitter • LinkedIn</p>
+          <ul class="space-y-2">
+            <li>
+              <a href="https://www.facebook.com/codemonkmi" target="_blank" class="text-white hover:text-pink-600 font-medium transition">Facebook</a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/codemonkmi/" target="_blank" class="text-white hover:text-pink-600 font-medium transition">LinkedIn</a>
+            </li>
+            <li>
+              <a href="https://github.com/CodeMonkMI" target="_blank" class="text-white hover:text-pink-600 font-medium transition">Github</a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="text-center text-gray-500 text-sm mt-10 border-t border-gray-700 pt-6">© 2025 Evento. All rights reserved.</div>
+      <div class="text-center text-gray-500 text-sm mt-10 border-t border-gray-700 pt-6">© 2025 Eventos. All rights reserved.</div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/js/all.min.js"></script>

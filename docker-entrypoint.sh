@@ -13,6 +13,9 @@ echo "PostgreSQL started"
 echo "Applying database migrations..."
 python manage.py migrate --noinput
 
+# seeding data 
+python seed.py # comment if you don't want to seed data
+
 # Collect static files echo "Collecting static files..." 
 python manage.py collectstatic --noinput
 

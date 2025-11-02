@@ -13,12 +13,14 @@ from front.views import (
     CustomPasswordResetConfirmView,
     CustomPasswordResetView,
     HomeView,
-    ContactUsView
+    ContactUsView,
+    AboutUsView,
 )
 
 urlpatterns = [
     path("", HomeView.as_view(), name="front"),
     path("contact-us", ContactUsView.as_view(), name="front_contact"),
+    path("about-us", AboutUsView.as_view(), name="front_about"),
     path("events", EventsView.as_view(), name="front_events"),
     path("events/<uuid:id>", SingleView.as_view(), name="front_event_single"),
     path(
