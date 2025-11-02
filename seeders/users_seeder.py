@@ -1,4 +1,3 @@
-
 import os
 import django
 from faker import Faker
@@ -11,6 +10,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password
 
 fake = Faker()
+
 
 def seed_users(n=10):
     # Seed hardcoded users
@@ -59,7 +59,7 @@ def seed_users(n=10):
                 "is_superuser": user_data["is_superuser"],
             },
         )
-        if created:
+        if user:
             group = Group.objects.get(name=user_data["group"])
             user.groups.add(group)
 
