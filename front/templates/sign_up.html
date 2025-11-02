@@ -4,33 +4,37 @@
   Sign Up
 {% endblock %}
 {% block front_content %}
-  <div class="max-w-2xl mx-auto bg-white shadow rounded-xl p-8 mt-8">
-    <h1 class="text-2xl font-bold mb-6">Create new account</h1>
-    {% include 'messages.html' %}
-    <form action="{% url 'sign_up' %}" method="post" class="space-y-6" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% for field in form %}
-        <div>
-          {{ field.label_tag }}
-          {{ field }}
-          {% if field.errors %}
-            <ul>
-              {% for error in field.errors %}
-                <li class="text-red-500">{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
+  <div class="min-h-[75vh] flex justify-center items-center">
+    <div class="max-w-2xl mx-auto bg-white shadow rounded-xl p-8 my-8">
+      <h1 class="text-2xl font-bold mb-6">Create new account</h1>
+      {% include 'messages.html' %}
+      <form action="{% url 'sign_up' %}" method="post" class="space-y-6" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+          <div>
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <ul>
+                {% for error in field.errors %}
+                  <li class="text-red-500">{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <div class="flex justify-end">
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Create</button>
         </div>
-      {% endfor %}
-      <div class="flex justify-end">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Create</button>
+      </form>
+      <div class="mt-5">
+        <div class="">
+          Already have an account <a href="{% url 'sign_in' %}" class="rounded-lg text-blue-600 mr-2">Login Here</a>
+        </div>
+        <div class="">
+          Forgot your password <a href="{% url 'password_reset' %}" class="rounded-lg text-blue-600 mr-2">reset here</a>
+        </div>
       </div>
-      <div class="">
-        Already have an account <a href="{% url 'sign_in' %}" class="rounded-lg text-blue-600 mr-2">Login Here</a>
-      </div>
-      <div class="">
-        Forgot your password <a href="{% url 'password_reset' %}" class="rounded-lg text-blue-600 mr-2">reset here</a>
-      </div>
-    </form>
+    </div>
   </div>
 {% endblock %}
