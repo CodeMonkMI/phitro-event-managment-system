@@ -7,10 +7,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: evms
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - django_evms_data:/var/lib/postgresql/data
-
+    networks:
+      - django_evms_networks
   web:
     build:
       context: .
@@ -24,6 +25,12 @@ services:
       - ./.env
     depends_on:
       - evms_db
+    networks:
+      - django_evms_networks
 
 volumes:
   django_evms_data:
+
+networks:
+  django_evms_networks:
+    driver: bridge

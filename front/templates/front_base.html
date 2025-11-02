@@ -24,10 +24,13 @@
               <a href="{% url 'front' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Home</a>
             </li>
             <li>
+              <a href="{% url 'front_about' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">About</a>
+            </li>
+            <li>
               <a href="{% url 'front_events' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Events</a>
             </li>
             <li>
-              <a href="{% url 'front_contact' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Contact Us</a>
+              <a href="{% url 'front_contact' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Contact</a>
             </li>
             {% if user.is_authenticated %}
               {% if user|in_groups:'Admin' %}
@@ -48,9 +51,6 @@
             {% else %}
               <li>
                 <a href="{% url 'sign_in' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Sign In</a>
-              </li>
-              <li>
-                <a href="{% url 'sign_up' %}" class="text-gray-700 hover:text-blue-600 font-medium transition">Sign Up</a>
               </li>
             {% endif %}
           </ul>
